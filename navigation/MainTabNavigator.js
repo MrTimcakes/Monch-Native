@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
+import ScanScreen from '../screens/ScanScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -12,6 +13,22 @@ const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
+
+const ScanStack = createStackNavigator(
+  {
+    Links: ScanScreen,
+  },
+  config
+);
+
+ScanStack.navigationOptions = {
+  tabBarLabel: 'Scan',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-barcode' : 'ios-barcode'} />
+  ),
+};
+
+ScanStack.path = '';
 
 const HomeStack = createStackNavigator(
   {
@@ -69,6 +86,7 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
+  ScanStack,
   HomeStack,
   LinksStack,
   SettingsStack,

@@ -13,9 +13,10 @@ export default function ScanScreen() {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    let productName = (await (await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`, { method: 'GET', headers: { Accept: 'application/json', 'Content-Type': 'application/json', UserAgent: 'Monch - Android - Version 0.1 - Monch.XYZ' })).json()).product.product_name
+    alert(`Bar code with type ${type} and data ${data} has been scanned! Product: ${productName}`);
   };
 
   if (hasPermission === null) {
@@ -43,6 +44,7 @@ export default function ScanScreen() {
 } 
 
 ScanScreen.navigationOptions = {
+  header: null,
   title: 'Scan',
 };
 

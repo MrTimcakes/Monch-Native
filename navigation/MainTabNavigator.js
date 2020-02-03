@@ -86,8 +86,8 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  ScanStack,
   HomeStack,
+  ScanStack,
   LinksStack,
   SettingsStack,
 });

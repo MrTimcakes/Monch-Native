@@ -15,7 +15,7 @@ export default function ScanScreen() {
 
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    let productName = (await (await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`, { method: 'GET', headers: { Accept: 'application/json', 'Content-Type': 'application/json', UserAgent: 'Monch - Android - Version 0.1 - Monch.XYZ' })).json()).product.product_name
+    let productName = (await (await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)).json()).product.product_name
     alert(`Bar code with type ${type} and data ${data} has been scanned! Product: ${productName}`);
   };
 

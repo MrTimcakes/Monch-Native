@@ -11,7 +11,7 @@ Goal | Status
 :------------ | :------------ |
 Authentication | :black_square_button:
 Inventory | :black_square_button:
-Barcode Scan | :white_check_:
+Barcode Scan | :white_check_mark:
 Receipt Scan | :black_square_button:
 Manual Entry | :black_square_button:
 Recipies Database | :black_square_button:

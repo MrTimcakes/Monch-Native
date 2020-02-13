@@ -9,7 +9,8 @@ Monch suggests food recommendations and recipe guides based on the food already 
 
 Goal | Status
 :------------ | :------------ |
-Authentication | :black_square_button:
+Authentication | :white_check_mark:
+Anonymous Authentication | :black_square_button:
 Inventory | :black_square_button:
 Barcode Scan | :white_check_mark:
 Receipt Scan | :black_square_button:

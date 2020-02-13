@@ -85,12 +85,15 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
-const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  ScanStack,
-  LinksStack,
-  SettingsStack,
-});
+const tabNavigator = createBottomTabNavigator(
+  {
+    HomeStack,
+    ScanStack,
+    LinksStack,
+    SettingsStack,
+  },
+  {initialRouteName:'LinksStack'}
+);
 
 tabNavigator.path = '';
 

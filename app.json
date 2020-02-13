@@ -2,6 +2,7 @@
   "expo": {
     "name": "Monch",
     "slug": "Monch",
+    "owner": "MrTimcakes",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -9,13 +10,14 @@
       "android",
       "web"
     ],
-    "version": "0.0.1",
+    "version": "0.0.2",
+    "primaryColor": "#5663FF",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/LogoNoShadow.png",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#5663FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,6 +27,16 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "githubUrl": "https://github.com/MrTimcakes/Monch-Native",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#5663FF"
+    },
+    "androidNavigationBar": {
+      "visible": true,
+      "barStyle": "light-content",
+      "backgroundColor": "#5663FF"
     }
   }
 }

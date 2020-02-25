@@ -1,65 +1,34 @@
-import React, { Component } from 'react'
-import { AppLoading } from 'expo'
-import { Asset } from 'expo-asset'
-import * as Font from 'expo-font'
-import * as Icon from '@expo/vector-icons'
+import React, { useState, useEffect } from 'react';
+import { Button, Text, View } from 'react-native';
 import { withFirebaseHOC } from '../config/Firebase'
 
-class Initial extends Component {
-  state = {
-    isAssetsLoadingComplete: false
-  }
+function InitialScreen(props) {
 
-  componentDidMount = async () => {
-    try {
-      // previously
-      this.loadLocalAsync()
+  useEffect(() => {
 
-      await this.props.firebase.checkUserAuth(user => {
+    (async ()=>{
+      await props.firebase.checkUserAuth(user => {
         if (user) {
           // if the user has previously logged in
-          this.props.navigation.navigate('App')
+          props.navigation.navigate('App')
         } else {
           // if the user has previously signed out from the app
-          this.props.navigation.navigate('Auth')
+          props.navigation.navigate('Auth')
         }
       })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    })();
 
-  loadLocalAsync = async () => {
-    return await Promise.all([
-      Asset.loadAsync([
-        require('../assets/icon.png'),
-      ]),
-      Font.loadAsync({
-        ...Icon.Ionicons.font,
-        'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-      })
-    ])
-  }
+  });
 
-  handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-    console.warn(error)
-  }
-
-  handleFinishLoading = () => {
-    this.setState({ isAssetsLoadingComplete: true })
-  }
-
-  render() {
-    return (
-      <AppLoading
-        startAsync={this.loadLocalAsync}
-        onFinish={this.handleFinishLoading}
-        onError={this.handleLoadingError}
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Initial Screen</Text>
+      <Button
+        title="Go to App"
+        onPress={() => props.navigation.navigate('App')}
       />
-    )
-  }
+    </View>
+  );
 }
 
-export default withFirebaseHOC(Initial)
+export default withFirebaseHOC(InitialScreen)

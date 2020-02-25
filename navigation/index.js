@@ -1,19 +1,21 @@
-import { createSwitchNavigator, createAppContainer } from 'react-navigation'
-import Initial from '../screens/Initial'
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import AuthNavigation from './AuthNavigation'
 import AppNavigation from './AppNavigation'
 
-const SwitchNavigator = createSwitchNavigator(
-  {
-    Initial: Initial,
-    Auth: AuthNavigation,
-    App: AppNavigation
-  },
-  {
-    initialRouteName: 'Initial'
-  }
-)
+import InitialScreen from '../screens/Initial';
 
-const AppContainer = createAppContainer(SwitchNavigator)
+const Stack = createStackNavigator();
 
-export default AppContainer
+export default function AppContainer() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator headerMode="none" initialRouteName="Initial" >
+        <Stack.Screen name="Initial" component={InitialScreen}/>
+        <Stack.Screen name="Auth" component={AuthNavigation}/>
+        <Stack.Screen name="App" component={AppNavigation}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

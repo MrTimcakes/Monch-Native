@@ -1,33 +1,34 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import { withFirebaseHOC } from '../config/Firebase'
 
-class Home extends Component {
-  handleSignout = async () => {
+function InventoryScreen(props) {
+
+  const SignOut = async () => {
     try {
-      await this.props.firebase.signOut()
-      this.props.navigation.navigate('Auth')
+      await props.firebase.signOut()
+      props.navigation.navigate('Auth')
     } catch (error) {
       console.log(error)
     }
   }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Monch Home</Text>
+
+  return (
+    <View style={styles.container}>
+        <Text>Monch Inventory</Text>
         <Button
           title='Signout'
-          onPress={this.handleSignout}
+          onPress={SignOut}
           titleStyle={{
             color: '#F57C00'
           }}
           type='clear'
         />
       </View>
-    )
-  }
+  );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -38,4 +39,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default withFirebaseHOC(Home)
+export default withFirebaseHOC(InventoryScreen)

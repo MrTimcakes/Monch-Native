@@ -3,11 +3,14 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import firebaseConfig from './firebaseConfig'
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
+// Initialize Firebase if not already
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const Firebase = {
-  // auth
+  ...firebase, // Expose all existing firebase functions
+  // Auth Utilities
   loginWithEmail: (email, password) => {
     return firebase.auth().signInWithEmailAndPassword(email, password)
   },
@@ -23,14 +26,14 @@ const Firebase = {
   passwordReset: email => {
     return firebase.auth().sendPasswordResetEmail(email)
   },
-  // firestore
+  // Firestore Utilities
   createNewUser: userData => {
     return firebase
       .firestore()
       .collection('users')
       .doc(`${userData.uid}`)
       .set(userData)
-  }
+  },
 }
 
 export default Firebase

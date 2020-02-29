@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
 import { Image, Button, Text, View } from 'react-native';
-import { withFirebaseHOC } from '../config/Firebase'
+import { withFirebaseHOC } from '../utilities/Firebase'
 
 function InitialScreen(props) {
 

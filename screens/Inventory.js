@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
-import { withFirebaseHOC } from '../config/Firebase'
+import { withFirebaseHOC } from '../utilities/Firebase'
 
 function InventoryScreen(props) {
 

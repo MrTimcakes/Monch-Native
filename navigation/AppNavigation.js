@@ -11,6 +11,9 @@ import FeedScreen from '../screens/Feed';
 import ProfileScreen from '../screens/Profile';
 import SettingsScreen from '../screens/Settings';
 
+import ScanScreen from '../screens/ScanScreen';
+import MonchBottomTabBar from '../components/MonchBottomTabBar';
+
 const Tab = createBottomTabNavigator();
 const screenOptions=({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
@@ -45,9 +48,12 @@ const tabBarOptions={
 
 function TabContainer() {
   return (
-    <Tab.Navigator headerMode="none" initialRouteName="Recipies" screenOptions={screenOptions} tabBarOptions={tabBarOptions} >
+    <Tab.Navigator headerMode="none"
+    // initialRouteName="Recipies" screenOptions={screenOptions} tabBarOptions={tabBarOptions} 
+    tabBar={props => <MonchBottomTabBar {...props} />} >
       <Tab.Screen name="Inventory" component={InventoryScreen}/>
       <Tab.Screen name="Recipies" component={RecipiesScreen}/>
+      <Tab.Screen name="Button" component={ ScanScreen }/>
       <Tab.Screen name="Feed" component={FeedScreen}/>
       <Tab.Screen name="Profile" component={ProfileScreen}/>
     </Tab.Navigator>

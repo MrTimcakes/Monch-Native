@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import FormInput from '../../components/FormInput'
 import FormButton from '../../components/FormButton'
 import ErrorMessage from '../../components/ErrorMessage'
-import { withFirebaseHOC } from '../../config/Firebase'
+import { withFirebaseHOC } from '../../utilities/Firebase'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()

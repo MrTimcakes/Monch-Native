@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { withFirebaseHOC } from '../config/Firebase'
+import { withFirebaseHOC } from '../utilities/Firebase'
 
 function SettingsScreen(props) {
   return (

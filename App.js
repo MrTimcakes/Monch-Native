@@ -1,6 +1,6 @@
 import React from 'react'
 import AppContainer from './navigation'
-import Firebase, { FirebaseProvider } from './config/Firebase'
+import Firebase, { FirebaseProvider } from './utilities/Firebase'
 
 export default function App() {
   return (

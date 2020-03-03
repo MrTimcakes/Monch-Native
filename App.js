@@ -1,3 +1,4 @@
+import './utilities/bodges';
 import React from 'react'
 import AppContainer from './navigation'
 import Firebase, { FirebaseProvider } from './utilities/Firebase'

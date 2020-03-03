@@ -44,11 +44,6 @@ if (Platform.OS === 'android') {
     };
 }
 
-try{
-    import {decode, encode} from 'base-64'
-    if (!global.btoa) { global.btoa = encode; }
-    if (!global.atob) { global.atob = decode; }
-}catch(e){
-    console.log("Boi")
-    console.log(e);
-}
+import {decode, encode} from 'base-64'
+if (!global.btoa) { global.btoa = encode; }
+if (!global.atob) { global.atob = decode; }

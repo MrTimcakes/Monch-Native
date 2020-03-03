@@ -37,6 +37,10 @@
       "visible": true,
       "barStyle": "light-content",
       "backgroundColor": "#5663FF"
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
+import { SafeAreaView, View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
 function InventoryItem( item ) {
@@ -46,7 +46,7 @@ function InventoryScreen(props) {
   })
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       
       <FlatList style={styles.listContainer}
         data={InventoryData.Inventory}
@@ -55,7 +55,7 @@ function InventoryScreen(props) {
         )}
         keyExtractor={item => item.code}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

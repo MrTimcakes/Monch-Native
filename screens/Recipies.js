@@ -26,42 +26,69 @@ function Recipie(){
   );
 }
 
+function CategoryCard(){
+  return(
+    <View style={styles.categoryCard}>
+      <Image style={styles.categoryImage} />
+      <Text style={styles.categoryTitle}>Italian</Text>
+    </View>
+  );
+}
+
 function RecipiesScreen(props) {
   const [search, setSearch] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar placeholder="Find Recipies" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'#fff'}}/>
 
-      <View style={styles.recipesContainer}>
-        <View style={styles.TitleContainer}>
-          <Text style={styles.title}>Trending Recipies</Text>
-          <TouchableOpacity><Text style={styles.seeAll}>See all (45)</Text></TouchableOpacity>
-        </View>
-        <ScrollView style={styles.recipeScrollView} horizontal showsHorizontalScrollIndicator={false}>
-          <Recipie />
-          <Recipie />
-        </ScrollView>
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
 
-      <View>
-        <View style={styles.TitleContainer}>
-          <Text style={styles.title}>Category</Text>
-          <TouchableOpacity><Text style={styles.seeAll}>See all (15)</Text></TouchableOpacity>
-        </View>
-        <ScrollView>
-          <View>
-            <Image />
-            <Text>Italian</Text>
+        <View style={styles.recipesContainer}>
+          <View style={styles.TitleContainer}>
+            <TouchableOpacity><Text style={styles.title}>Trending Recipies</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.seeAll}>See all (45)</Text></TouchableOpacity>
           </View>
-        </ScrollView>
-      </View>
+          <ScrollView style={styles.recipeScrollView} horizontal showsHorizontalScrollIndicator={false}>
+            <Recipie />
+            <Recipie />
+            <Recipie />
+          </ScrollView>
+        </View>
 
-      <Text>Monch Recipies!</Text>
+        <View style={styles.categoryContainer}>
+          <View style={styles.TitleContainer}>
+            <TouchableOpacity><Text style={styles.title}>Category</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.seeAll}>See all (15)</Text></TouchableOpacity>
+          </View>
+          <ScrollView style={styles.categoryScrollView} horizontal showsHorizontalScrollIndicator={false}>
+            <CategoryCard />
+            <CategoryCard />
+            <CategoryCard />
+            <CategoryCard />
+            <CategoryCard />
+            <CategoryCard />
+          </ScrollView>
+        </View>
+
+        <View style={styles.recipesContainer}>
+          <View style={styles.TitleContainer}>
+            <TouchableOpacity><Text style={styles.title}>Your Favourites</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.seeAll}>See all (5)</Text></TouchableOpacity>
+          </View>
+          <ScrollView style={styles.recipeScrollView} horizontal showsHorizontalScrollIndicator={false}>
+            <Recipie />
+            <Recipie />
+            <Recipie />
+          </ScrollView>
+        </View>
+
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  blank: {},
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -69,7 +96,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center'
   },
   recipesContainer: {
-    flex: 0.6,
+    // flex: 0.8,
     // backgroundColor: 'yellow',
     // height: 350,
   },
@@ -90,12 +117,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   recipeScrollView: {
-    flex: 1,
+    // flex: 1,
     // backgroundColor: 'cyan',
   },
   recipe: {
     // flex: 1,
-    margin: 10,
+    margin: 15,
     width: Dimensions.get('window').width * 0.75,
     height: Dimensions.get('window').width * 0.6,
     backgroundColor: '#fff',
@@ -108,6 +135,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
+    marginBottom: 20,
   },
   headerImage: {
     flex: 0.65,
@@ -123,10 +151,44 @@ const styles = StyleSheet.create({
   },
   recipeTitle: {
     fontSize: 22,
-    marginBottom: 5
+    marginBottom: 5,
+    color: '#3E3F68',
   },
   recipeDesc: {
     fontSize: 12,
+    color: '#8A98BA',
+  },
+  categoryContainer: {
+
+  },
+  categoryScrollView: {
+    flex: 1,
+  },
+  categoryCard: {
+    backgroundColor: 'violet',
+    // flex: 1,
+    margin: 10,
+    width: 100,
+    height: 100,
+    // backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+    marginBottom: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  categoryImage: {
+
+  },
+  categoryTitle: {
+    fontSize: 26,
   },
 })
 

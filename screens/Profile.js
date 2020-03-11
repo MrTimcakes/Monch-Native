@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {
   View,
+  ScrollView,
 } from "react-native";
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,8 +19,8 @@ function ProfileScreen(props) {
 
   return (
     <View>
-      <ProfileHead />
-      <PhotoGrid data={Posts} />
+      {/* <ProfileHead /> */}
+      <PhotoGrid data={Posts} ListHeaderComponent={ProfileHead} />
     </View>
   );
 }

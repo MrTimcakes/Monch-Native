@@ -4,8 +4,10 @@ import { withFirebaseHOC } from '../utilities/Firebase'
 
 function InventoryItem( item ) {
   return (
-    <TouchableOpacity style={InvItemStyles.ItemContainer} >
-      { item.image_front_thumb_url && <Image style={InvItemStyles.ProductImage} source={{uri: item.image_front_thumb_url}} /> }
+    <TouchableOpacity style={InvItemStyles.ItemContainer}>
+      <View style={InvItemStyles.ProductImageContainer}>
+        { item.image_front_thumb_url && <Image style={InvItemStyles.ProductImage} source={{uri: item.image_front_thumb_url}} /> }
+      </View>
       <Text style={InvItemStyles.ProductName}>{item.product_name}</Text>
     </TouchableOpacity>
   );
@@ -22,12 +24,17 @@ const InvItemStyles = StyleSheet.create({
   ProductName:{
     //
   },
-  ProductImage:{
+  ProductImageContainer:{
     width: 50,
     height: 50,
     marginLeft: 5,
     marginRight: 5,
-  }
+  },
+  ProductImage: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+  },
 })
 
 function InventoryScreen(props) {
@@ -53,7 +60,7 @@ function InventoryScreen(props) {
         renderItem={({ item }) => (
           <InventoryItem {...item} />
         )}
-        keyExtractor={item => item.code}
+        keyExtractor={item => item.uuid}
       />
     </SafeAreaView>
   );

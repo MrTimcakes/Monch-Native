@@ -22,16 +22,16 @@ export default function ProfileHead() {
       </View>
       <View style={profile.Stats}>
       <View style={profile.Stat}>
-          <Text style={profile.StatValue}>125</Text>
+          <Text style={profile.StatValue}>12</Text>
           <Text style={profile.StatTitle}>Badges</Text>
         </View>
         <View style={profile.Stat}>
           <Text style={profile.StatValue}>125</Text>
-          <Text style={profile.StatTitle}>Badges</Text>
+          <Text style={profile.StatTitle}>Followers</Text>
         </View>
         <View style={profile.Stat}>
-          <Text style={profile.StatValue}>125</Text>
-          <Text style={profile.StatTitle}>Badges</Text>
+          <Text style={profile.StatValue}>45</Text>
+          <Text style={profile.StatTitle}>Following</Text>
         </View>
       </View>
       <View style={profile.Buttons}>

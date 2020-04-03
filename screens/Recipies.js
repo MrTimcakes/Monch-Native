@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { 
-  SafeAreaView,
   View,
   StyleSheet,
   Text,
@@ -12,6 +11,7 @@ import {
 import { 
   SearchBar,
 } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
 function Recipie(){
@@ -40,7 +40,6 @@ function RecipiesScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar placeholder="Find Recipies" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'#fff'}}/>
-
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <View style={styles.recipesContainer}>

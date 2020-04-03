@@ -5,6 +5,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
+import MonchTabBar from '../components/BottomTabBar';
+
 import InventoryScreen from '../screens/Inventory';
 import RecipiesScreen from '../screens/Recipies';
 import FeedScreen from '../screens/Feed';
@@ -45,7 +47,7 @@ const tabBarOptions={
 
 function TabContainer() {
   return (
-    <Tab.Navigator headerMode="none" initialRouteName="Recipies" screenOptions={screenOptions} tabBarOptions={tabBarOptions} >
+    <Tab.Navigator tabBar={props => <MonchTabBar {...props} />} >
       <Tab.Screen name="Inventory" component={InventoryScreen}/>
       <Tab.Screen name="Recipies" component={RecipiesScreen}/>
       <Tab.Screen name="Feed" component={FeedScreen}/>

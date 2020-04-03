@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { SafeAreaView, View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
+import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
 function InventoryItem( item ) {

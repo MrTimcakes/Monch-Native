@@ -4,7 +4,6 @@
     "slug": "Monch",
     "owner": "MrTimcakes",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -34,7 +33,6 @@
       "backgroundColor": "#5663FF"
     },
     "androidNavigationBar": {
-      "visible": true,
       "barStyle": "light-content",
       "backgroundColor": "#5663FF"
     }

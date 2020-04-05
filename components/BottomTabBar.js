@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 
-import Inventory from '../assets/SVG/Inventory.svg';
-import Recipies from '../assets/SVG/Recipies.svg';
-import Feed from '../assets/SVG/Feed.svg';
-import Profile from '../assets/SVG/Profile.svg';
+import Inventory from '../assets/SVG/Inventory.jsx';
+import Recipies from '../assets/SVG/Recipies.jsx';
+import Feed from '../assets/SVG/Feed.jsx';
+import Profile from '../assets/SVG/Profile.jsx';
 
 function MultiFunc(props){
 
@@ -102,20 +102,20 @@ function BottomTabBar(props) {
             });
           };
 
-          const renderIcon = (routeName) =>{
+          const renderIcon = () =>{
             iconSize = 25;
             switch(route.name){
               case 'Inventory':
-                return <Inventory width={iconSize} height={iconSize}/>
+                return <Inventory width={iconSize} height={iconSize} isActive={isFocused} />
                 break;
               case 'Recipies':
-                return <Recipies width={iconSize} height={iconSize}/>
+                return <Recipies width={iconSize} height={iconSize} isActive={isFocused}/>
                 break;
               case 'Feed':
-                return <Feed width={iconSize} height={iconSize}/>
+                return <Feed width={iconSize} height={iconSize} isActive={isFocused}/>
                 break;
               case 'Profile':
-                return <Profile width={iconSize} height={iconSize}/>
+                return <Profile width={iconSize} height={iconSize} isActive={isFocused}/>
                 break;
               default:
                 return <Inventory width={iconSize} height={iconSize}/>

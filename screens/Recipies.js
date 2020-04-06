@@ -39,8 +39,8 @@ function RecipiesScreen(props) {
   const [search, setSearch] = useState('');
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar placeholder="Find Recipies" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'#fff'}}/>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <SearchBar placeholder="Find Recipies" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'#fff'}}/>
 
         <View style={styles.recipesContainer}>
           <View style={styles.TitleContainer}>

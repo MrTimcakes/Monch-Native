@@ -4,6 +4,8 @@ import {
   StyleSheet, 
   Text, 
   View,
+  Image,
+  TouchableOpacity,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { 
@@ -86,13 +88,14 @@ const PH = StyleSheet.create({
   container: {
     // backgroundColor: '#AA0000',
     // justifyContent: 'center',
-    // alignItems: 'center',
+    alignItems: 'center',
     zIndex: 1,
-    width: '80%',
+    width: '100%',
     marginBottom: -(25 + 25 + 50),
     paddingTop: 25 + 5,
   },
   head: {
+    width: '80%',
     // backgroundColor: '#AA0000',
     backgroundColor: '#FAFAFA',
     borderRadius: 7.5,
@@ -127,7 +130,8 @@ const PH = StyleSheet.create({
 function PostImage(P){
   return (
     <View style={PI.container}>
-      <Text>Image</Text>
+      {/* <Text>Image</Text> */}
+      <Image style={PI.image} source={{ uri: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2', }} />
     </View>
     )
 }
@@ -140,16 +144,25 @@ const PI = StyleSheet.create({
     width: '100%',
     height: 300,
     zIndex: 0,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   }
 });
 
 function PostBody(P){
   return (
     <View style={PB.container}>
-      <Text>130 Likes</Text>
-      <Text>Recipie: Grilled Salmon & Salad Lunch</Text>
-      <Text>MrTmcakes Lunch #MonchApp</Text>
-      <Text>10 Minutes Ago</Text>
+      <View style={PB.buttons}>
+        <Text>130 Likes</Text>
+      </View>
+      <TouchableOpacity><Text style={PB.recipie}>Recipie: Grilled Salmon & Salad Lunch</Text></TouchableOpacity>
+      <View style={PB.descContainer}>
+        <TouchableOpacity><Text style={PB.username}>MrTimcakes: </Text></TouchableOpacity>
+        <Text>Lunch #MonchApp</Text>
+      </View>
+      <Text style={PB.timestamp}>10 Minutes Ago</Text>
     </View>
     )
   }
@@ -164,10 +177,44 @@ const PB = StyleSheet.create({
     borderRadius: 25,
     width: '100%',
     // height: 300,
+    paddingTop: 7.5,
+    paddingBottom: 7.5,
     paddingLeft: 20,
     paddingRight: 20,
     marginTop: -25,
     marginBottom: -25,
+  },
+  buttons: {
+    
+  },
+  descContainer: {
+    flexDirection: 'row',
+  },
+  recipie: {
+    fontWeight: 'bold',
+  },
+  username: {
+    fontWeight: 'bold',
+  },
+  timestamp: {
+    color: '#AAA',
+  },
+});
+
+
+function Post(P){
+  return (
+    <View style={P.container}>
+      <PostHead />
+      <PostImage />
+      <PostBody />
+    </View>
+    )
+}
+
+const P = StyleSheet.create({
+  container: {
+    width: '100%',
   }
 });
 
@@ -176,20 +223,11 @@ function FeedScreen(props) {
     <SafeAreaView style={styles.container}>
       <MonchHeader />
       <Stories />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{justifyContent:'center',alignItems:'center'}} >
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{}} >
 
-        <PostHead />
-        <PostImage />
-        <PostBody />
-
-        <PostHead />
-        <PostImage />
-        <PostBody />
-
-        <PostHead />
-        <PostImage />
-        <PostBody />
-
+        <Post />
+        <Post />
+        <Post />
 
       </ScrollView>
     </SafeAreaView>

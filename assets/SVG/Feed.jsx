@@ -16,7 +16,7 @@ function SvgComponent(props) {
     fillColor = '#5663FF';
     strokeColor = '';
   }else{
-    fillColor = '';
+    fillColor = '#FFFFFF';
     strokeColor = '#6E7FAA';
   }
 

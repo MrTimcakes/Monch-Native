@@ -7,6 +7,8 @@ export default {
   color4: 'rgba(34, 36, 85, 1)',
   color5: 'rgba(34, 34, 34, 1)',
 
+  offWhite: '#fAfAfA',
+
   tintColor,
   tabIconDefault: '#ccc',
   tabIconSelected: tintColor,

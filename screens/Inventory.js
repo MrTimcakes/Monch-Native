@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { 
+  SearchBar,
+} from 'react-native-elements';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
 import MonchHeader from 'Monch/components/MonchHeader';
@@ -41,7 +44,7 @@ const InvItemStyles = StyleSheet.create({
 })
 
 function InventoryScreen(props) {
-
+  const [search, setSearch] = useState('');
   const [InventoryData, SetInventoryData] = useState(
       {Inventory:[]}
     );
@@ -58,6 +61,7 @@ function InventoryScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <MonchHeader />
+      <SearchBar placeholder="Search Your Inventory" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'transparent'}}/>
       <FlatList style={styles.listContainer}
         data={InventoryData.Inventory}
         renderItem={({ item }) => (

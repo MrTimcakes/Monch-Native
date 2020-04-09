@@ -3,6 +3,8 @@ import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
+import MonchHeader from 'Monch/components/MonchHeader';
+
 function InventoryItem( item ) {
   return (
     <TouchableOpacity style={InvItemStyles.ItemContainer}>
@@ -55,7 +57,7 @@ function InventoryScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      
+      <MonchHeader />
       <FlatList style={styles.listContainer}
         data={InventoryData.Inventory}
         renderItem={({ item }) => (
@@ -71,7 +73,7 @@ function InventoryScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fAfAfA',
     alignItems: 'center',
     justifyContent: 'center',
   },

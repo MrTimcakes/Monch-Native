@@ -38,11 +38,10 @@ const MF = StyleSheet.create({
     left: (Dimensions.get('window').width/2) - (65/2),
     // top: -30,
     bottom: 20,
+    elevation: 25,
     zIndex: 9999,
   },
 });
-
-
 
 function BottomTabBar(props) {
   let { state, descriptors, navigation } = props;
@@ -103,7 +102,7 @@ function BottomTabBar(props) {
           };
 
           const renderIcon = () =>{
-            iconSize = 25;
+            iconSize = 50;
             switch(route.name){
               case 'Inventory':
                 return <Inventory width={iconSize} height={iconSize} isActive={isFocused} />
@@ -116,6 +115,9 @@ function BottomTabBar(props) {
                 break;
               case 'Profile':
                 return <Profile width={iconSize} height={iconSize} isActive={isFocused}/>
+                break;
+              case 'MULTIFUNC':
+                return <View />
                 break;
               default:
                 return <Inventory width={iconSize} height={iconSize}/>
@@ -163,6 +165,7 @@ const S = StyleSheet.create({
     borderTopLeftRadius: 25, 
     borderTopRightRadius: 25,
     // borderWidth: 1,
+    elevation: 25,
   },
   TabItem:{
     flex: 1,
@@ -171,7 +174,6 @@ const S = StyleSheet.create({
     height: 50,
     // backgroundColor: '#CCC',
     // borderWidth: 1,
-    
   },
   dev:{
     position: 'absolute',

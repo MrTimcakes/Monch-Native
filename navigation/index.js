@@ -1,19 +1,13 @@
-// import * as React from 'react';
+import React, { useState } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AuthNavigation from './AuthNavigation'
-import AppNavigation from './AppNavigation'
-
-import React, { useState } from 'react';
 import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
-import { Image, Button, Text, View } from 'react-native';
+
+import AuthNavigation from './AuthNavigation'
+import AppNavigation from './AppNavigation'
 import { withFirebaseHOC } from '../utilities/Firebase'
-
-// import InitialScreen from '../screens/Initial';
-
-const Stack = createStackNavigator();
 
 function AppContainer(P) {
   const [isReady, setIsReady] = useState(false);
@@ -22,11 +16,7 @@ function AppContainer(P) {
 
   P.firebase.auth().onAuthStateChanged((user) => {
     setIsAuthStateKnown(true);
-    if (user) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    user ? setIsLoggedIn(true) : setIsLoggedIn(false); // Set user state (As Boolean)
   });
 
   const _cacheResourcesAsync = async => {
@@ -41,14 +31,10 @@ function AppContainer(P) {
   }
 
   if (!isReady || !isAuthStateKnown) {
-    return (
-      <AppLoading
-        startAsync={_cacheResourcesAsync}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    ); 
+    return ( <AppLoading startAsync={_cacheResourcesAsync} onFinish={() => setIsReady(true)} onError={console.warn} /> ); 
   }
+
+  const Stack = createStackNavigator();
 
   return (
     <SafeAreaProvider>
@@ -61,6 +47,5 @@ function AppContainer(P) {
     </SafeAreaProvider>
   );
 }
-
 
 export default withFirebaseHOC(AppContainer);

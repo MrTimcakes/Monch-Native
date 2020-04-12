@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState, useEffect, Fragment } from 'react';
 import Svg, {
   Defs,
   RadialGradient,
@@ -6,52 +6,41 @@ import Svg, {
   G,
   Circle,
   Path,
-} from "react-native-svg"
+} from 'react-native-svg';
 
-function SvgComponent(props) {
-  let fillColor = props.fill || '',
-      strokeColor = props.stroke || '#6E7FAA';
+function SvgComponent(P) {
+  const [fillColor, setFillColor] = useState('');
+  const [strokeColor, setStrokeColor] = useState('#6E7FAA');
+  // Change colours when isActive changes
+  useEffect(() => { P.isActive ? (setFillColor("#5663FF"), setStrokeColor("")) : (setFillColor("#FFFFFF"), setStrokeColor("#6E7FAA")); }, [P.isActive]);
 
-  if(props.isActive){
-    fillColor = '#5663FF';
-    strokeColor = '';
-  }else{
-    fillColor = '#FFFFFF';
-    strokeColor = '#6E7FAA';
+  const SvgPath = ()=>{
+    return(
+      <Fragment>
+        <Defs>
+          <RadialGradient id='radial-gradient' cx={71.989} cy={71.982} r={71.954} gradientTransform='matrix(1 0 0 -1 0 143.963)' gradientUnits='userSpaceOnUse'>
+            <Stop offset={0} stopColor='#5663ff' />
+            <Stop offset={0.523} stopColor='#5663ff' stopOpacity={0.322} />
+            <Stop offset={0.736} stopColor='#5663ff' stopOpacity={0.102} />
+            <Stop offset={0.954} stopColor='#5663ff' stopOpacity={0.012} />
+            <Stop offset={1} stopColor='#5663ff' stopOpacity={0} />
+          </RadialGradient>
+        </Defs>
+        <G id='FeedGroup' transform='translate(-739.9 -101.2)'>
+          {P.isActive ? <Circle id='ActiveHighlight' cx={72} cy={72} r={72} fill='url(#radial-gradient)' opacity={0.35} transform='translate(739.9 101.2)' /> : null }
+          <Path id='Feed' fill={fillColor} stroke={strokeColor} strokeWidth={4} d='M797.1,198.2a10,10,0,1,1-10-10A10.029,10.029,0,0,1,797.1,198.2Zm27.5,7.4a47.6,47.6,0,0,0-45-45A2.419,2.419,0,0,0,777,163v7.6a2.506,2.506,0,0,0,2.3,2.5A35.085,35.085,0,0,1,812,205.8a2.506,2.506,0,0,0,2.5,2.3H822a2.476,2.476,0,0,0,2.5-2.5C824.6,205.7,824.6,205.7,824.6,205.6Zm22.6.1a70.24,70.24,0,0,0-67.6-67.6,2.543,2.543,0,0,0-2.6,2.4v7.6a2.456,2.456,0,0,0,2.4,2.5,57.766,57.766,0,0,1,55.3,55.3,2.454,2.454,0,0,0,2.5,2.4h7.5a2.562,2.562,0,0,0,2.5-2.6Z' />
+        </G>
+      </Fragment>
+    )
   }
 
+  if(P.pathOnly){ return <SvgPath /> }
+
   return (
-    <Svg viewBox="0 0 144.108 144.108" {...props}>
-      <Defs>
-        <RadialGradient
-          id="radial-gradient"
-          cx={0.5}
-          cy={0.5}
-          r={0.5}
-          gradientUnits="objectBoundingBox"
-        >
-          <Stop offset={0} stopColor="#5663ff" />
-          <Stop offset={0.523} stopColor="#5663ff" stopOpacity={0.322} />
-          <Stop offset={0.736} stopColor="#5663ff" stopOpacity={0.102} />
-          <Stop offset={0.954} stopColor="#5663ff" stopOpacity={0.012} />
-          <Stop offset={1} stopColor="#5663ff" stopOpacity={0} />
-        </RadialGradient>
-      </Defs>
-      <G id="FeedGroup" transform="translate(-739.946 -101.292)">
-        {props.isActive
-          ? <Circle id="ActiveHighlight" cx={72.054} cy={72.054} r={72.054} fill="url(#radial-gradient)" opacity={0.35} transform="translate(739.946 101.292)" />
-          : null
-        }
-        <Path
-          id="Feed"
-          fill={fillColor}
-          stroke={strokeColor}
-          strokeWidth={4}
-          d="M797.081 198.218a10.04 10.04 0 11-10.04-10.04 10.04 10.04 0 0110.04 10.04zm27.54 7.4a47.672 47.672 0 00-44.989-44.983 2.506 2.506 0 00-2.632 2.507v7.536a2.51 2.51 0 002.334 2.511 35.13 35.13 0 0132.731 32.729 2.51 2.51 0 002.511 2.334h7.536a2.506 2.506 0 002.509-2.634zm22.615.045a70.286 70.286 0 00-67.649-67.645 2.506 2.506 0 00-2.587 2.511v7.536a2.516 2.516 0 002.423 2.508 57.7 57.7 0 0155.26 55.26 2.516 2.516 0 002.508 2.423h7.536a2.506 2.506 0 002.509-2.588z"
-        />
-      </G>
+    <Svg viewBox="0 0 144 144" {...P}>
+      <SvgPath />
     </Svg>
   )
 }
 
-export default SvgComponent
+export default SvgComponent;

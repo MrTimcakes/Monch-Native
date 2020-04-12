@@ -17,14 +17,11 @@ const Stack = createStackNavigator();
 
 function AppContainer(P) {
   const [isReady, setIsReady] = useState(false);
+  const [isAuthStateKnown, setIsAuthStateKnown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // setIsLoggedIn(  )
-  // let user = P.firebase.auth().currentUser;
-
-  // console.log(user);
 
   P.firebase.auth().onAuthStateChanged((user) => {
-    console.log("Auth State Changed");
+    setIsAuthStateKnown(true);
     if (user) {
       setIsLoggedIn(true);
     } else {
@@ -43,7 +40,7 @@ function AppContainer(P) {
     return Promise.all(cacheImages);
   }
 
-  if (!isReady) {
+  if (!isReady || !isAuthStateKnown) {
     return (
       <AppLoading
         startAsync={_cacheResourcesAsync}

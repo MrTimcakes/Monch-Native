@@ -6,6 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
 import MonchTabBar from '../components/BottomTabBar';
+import EmptyComponent from '../components/EmptyComponent';
 
 import InventoryScreen from '../screens/Inventory';
 import RecipiesScreen from '../screens/Recipies';
@@ -13,45 +14,19 @@ import FeedScreen from '../screens/Feed';
 import ProfileScreen from '../screens/Profile';
 import SettingsScreen from '../screens/Settings';
 
+import DevScreen from '../screens/Dev';
+import Login2 from '../screens/auth/Login.jsx';
+
 const Tab = createBottomTabNavigator();
-const screenOptions=({ route }) => ({
-  tabBarIcon: ({ focused, color, size }) => {
-    let iconName;
-
-    switch(route.name){
-      case 'Inventory':
-        iconName = focused ? 'shopping-basket' : 'shopping-basket';
-        break;
-      case 'Recipies':
-        iconName = focused ? 'cutlery' : 'cutlery';
-        break;
-      case 'Feed':
-        iconName = focused ? 'feed' : 'feed';
-        break;
-      case 'Profile':
-        iconName = focused ? 'user' : 'user';
-        break;
-      default:
-        iconName = focused ? 'info-circle' : 'info-circle';
-    }
-
-    // You can return any component that you like here!
-    return <FontAwesome name={iconName} size={size} color={color} />;
-  },
-})
-
-const tabBarOptions={
-  activeTintColor: Colors.tabIconSelected,
-  inactiveTintColor: Colors.tabIconDefault,
-}
 
 function TabContainer() {
   return (
-    <Tab.Navigator tabBar={props => <MonchTabBar {...props} />} >
-      <Tab.Screen name="Inventory" component={InventoryScreen}/>
-      <Tab.Screen name="Recipies" component={RecipiesScreen}/>
-      <Tab.Screen name="Feed" component={FeedScreen}/>
-      <Tab.Screen name="Profile" component={ProfileScreen}/>
+    <Tab.Navigator tabBar={props => <MonchTabBar {...props}/>} >
+      <Tab.Screen name="Inventory" component={InventoryScreen} />
+      <Tab.Screen name="Recipies" component={RecipiesScreen} />
+      <Tab.Screen name="MULTIFUNC" component={EmptyComponent}/>
+      <Tab.Screen name="Feed" component={FeedScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
@@ -66,4 +41,3 @@ export default function App() {
     </Drawer.Navigator>
   );
 }
-

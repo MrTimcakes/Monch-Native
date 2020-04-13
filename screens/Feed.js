@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { 
   ScrollView, 
   StyleSheet, 
@@ -6,6 +6,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  FlatList,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { 
@@ -13,6 +14,7 @@ import {
 } from 'react-native-elements';
 
 import Colors from '../constants/Colors';
+import DummyData from '../constants/dummyData';
 
 import MonchHeader from 'Monch/components/MonchHeader';
 
@@ -23,30 +25,38 @@ function Stories(props){
   return(
     <View style={S.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={S.ScrollContainer}>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
-        <View style={S.avatar}><Text>HI</Text></View>
+        <StoryItem />
+        <StoryItem />
+        <StoryItem />
+        <StoryItem />
+        <StoryItem />
+        <StoryItem />
+        <StoryItem />
+        <StoryItem />
       </ScrollView>
     </View>
   )
 }
+
+function StoryItem(P){
+  return(
+    <View style={S.item}>
+      <View style={S.avatar}><Text>HI</Text></View>
+      <Text style={S.username}>You</Text>
+    </View>
+  )
+}
+
 const S = StyleSheet.create({
   container: {
     // backgroundColor: '#CCAAFF',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: Colors.offWhite,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    height: 50 + 15,
+    height: 60 + 15,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    marginBottom: -25,
+    // marginBottom: -25,
     zIndex: 50,
     overflow: 'hidden',
     // borderBottomColor: '#00000080',
@@ -54,6 +64,10 @@ const S = StyleSheet.create({
   },
   ScrollContainer:{
     // backgroundColor: '#546459',
+    alignItems: 'center',
+  },
+  item: {
+    justifyContent: 'center',
     alignItems: 'center',
   },
   avatar: {
@@ -65,10 +79,15 @@ const S = StyleSheet.create({
     alignItems: 'center',
     margin: 5,
   },
+  username: {
+    marginTop: -5,
+    fontSize: 12,
+  },
 });
 
 
 function PostHead(P){
+  // console.log(P)
   return (
     <View style={PH.container}>
       <View style={PH.head}>
@@ -76,7 +95,7 @@ function PostHead(P){
           <Text>HI</Text>
         </View>
         <View style={PH.info}>
-          <Text style={PH.username}>MrTimcakes</Text>
+          <Text style={PH.username}>{P.item.account}</Text>
           <Text style={PH.location}>Location</Text>
         </View>
       </View>
@@ -131,7 +150,7 @@ function PostImage(P){
   return (
     <View style={PI.container}>
       {/* <Text>Image</Text> */}
-      <Image style={PI.image} source={{ uri: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2', }} />
+      <Image style={PI.image} source={{ uri: P.item.source.uri, }} />
     </View>
     )
 }
@@ -159,7 +178,7 @@ function PostBody(P){
       </View>
       <TouchableOpacity><Text style={PB.recipie}>Recipie: Grilled Salmon & Salad Lunch</Text></TouchableOpacity>
       <View style={PB.descContainer}>
-        <TouchableOpacity><Text style={PB.username}>MrTimcakes: </Text></TouchableOpacity>
+        <TouchableOpacity><Text style={PB.username}>{P.item.account}: </Text></TouchableOpacity>
         <Text>Lunch #MonchApp</Text>
       </View>
       <Text style={PB.timestamp}>10 Minutes Ago</Text>
@@ -173,7 +192,7 @@ const PB = StyleSheet.create({
     backgroundColor: '#FAFAFA',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    zIndex: 2,
+    zIndex: 5,
     borderRadius: 25,
     width: '100%',
     // height: 300,
@@ -183,6 +202,7 @@ const PB = StyleSheet.create({
     paddingRight: 20,
     marginTop: -25,
     marginBottom: -25,
+    overflow: 'visible',
   },
   buttons: {
     
@@ -203,33 +223,68 @@ const PB = StyleSheet.create({
 
 
 function Post(P){
+  // console.log(P)
   return (
-    <View style={P.container}>
-      <PostHead />
-      <PostImage />
-      <PostBody />
+    <View style={Pstyles.container}>
+      <PostHead item={P.item} />
+      <PostImage item={P.item} />
+      <PostBody item={P.item} />
     </View>
     )
 }
 
-const P = StyleSheet.create({
+const Pstyles = StyleSheet.create({
   container: {
     width: '100%',
+    overflow: 'visible',
   }
 });
 
-function FeedScreen(props) {
+function FeedScreen(P) {
+  // const  newData = DummyData.reverse();
+
+  const MuliFuncAction = () => {
+    console.log("Feed MultiFuncPress");
+  }
+
+  useEffect(() => {
+    console.log("Effects Triggered");
+    var MultiFuncUnsubscribe = P.navigation.addListener('MultiFuncPress', MuliFuncAction);
+    const FocusListenerUnsub = P.navigation.addListener('focus', () => {
+      MultiFuncUnsubscribe = P.navigation.addListener('MultiFuncPress', MuliFuncAction);
+    });
+    const BlurListenerUnsub = P.navigation.addListener('blur', () => {
+      if(MultiFuncUnsubscribe){MultiFuncUnsubscribe();}
+    });
+
+    return ()=>{
+      if(MultiFuncUnsubscribe){MultiFuncUnsubscribe();}
+      if(FocusListenerUnsub){FocusListenerUnsub();}
+      if(BlurListenerUnsub){BlurListenerUnsub();}
+    };
+  }, [P.navigation]);
+
+
+
+
+
+
+  const  newData = DummyData;
+
   return (
     <SafeAreaView style={styles.container}>
       <MonchHeader />
-      <Stories />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{}} >
-
-        <Post />
-        <Post />
-        <Post />
-
-      </ScrollView>
+      {/* <Stories /> */}
+      <FlatList
+        ListFooterComponent={Stories}
+        // ListFooterComponentStyle={{paddingBottom: 25}}
+        ListFooterComponentStyle={{ marginTop: -25 }}
+        inverted={true}
+        initialScrollIndex={DummyData.length-1}
+        data={newData}
+        renderItem={({ item }) => <Post item={item}/>}
+        keyExtractor={item => item.postID}
+      />
     </SafeAreaView>
   );
 }
@@ -245,3 +300,7 @@ const styles = StyleSheet.create({
 })
 
 export default withFirebaseHOC(FeedScreen)
+
+export function MultiFuncAction(P){
+  console.log("Here");
+}

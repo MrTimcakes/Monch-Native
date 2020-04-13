@@ -6,182 +6,200 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  TouchableHighlight,
   Dimensions,
   Keyboard,
 } from 'react-native';
+
 import Colors from '../constants/Colors';
 
-import Inventory from '../assets/SVG/Inventory.jsx';
-import Recipies from '../assets/SVG/Recipies.jsx';
-import Feed from '../assets/SVG/Feed.jsx';
-import Profile from '../assets/SVG/Profile.jsx';
+import Svg, { Defs, RadialGradient, Stop, LinearGradient, ClipPath, Path, G, Circle, Ellipse, Rect } from 'react-native-svg';
 
-function MultiFunc(props){
+import Inventory from 'Monch/assets/SVG/Inventory.jsx';
+import Recipies from 'Monch/assets/SVG/Recipies.jsx';
+import Feed from 'Monch/assets/SVG/Feed.jsx';
+import Profile from 'Monch/assets/SVG/Profile.jsx';
 
-  return (
-    <TouchableOpacity style={MF.container}>
-      <Text style={{color: 'white',fontSize: 38}}>+</Text>
-    </TouchableOpacity>
-  );
-}
+import Plus from 'Monch/assets/SVG/Plus.jsx';
+import Barcode from 'Monch/assets/SVG/Barcode.jsx';
 
-const MF = StyleSheet.create({
-  container:{
-    position: 'absolute',
-    backgroundColor: Colors.color2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 65,
-    height: 65,
-    borderRadius: 50,
-    // borderWidth: 1,
-    left: (Dimensions.get('window').width/2) - (65/2),
-    // top: -30,
-    bottom: 20,
-    elevation: 25,
-    zIndex: 9999,
-  },
-});
+function BottomTabBar({ state, descriptors, navigation }) {
+  const ViewBox = { width: 1120, height: 256, };
+  
+  const TabBarWidth = Dimensions.get('window').width;
+  const TabBarHeight = Dimensions.get('window').width * (ViewBox.height/ViewBox.width);
 
-function BottomTabBar(props) {
-  let { state, descriptors, navigation } = props;
-  const [isVisible, setIsVisible] = useState(true); 
+  const MultiFunction = () => {  
+    const onPress = ()=>{
+      navigation.emit({ type: 'MultiFuncPress' });
+    }
 
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+    const MFSize = TabBarHeight*(2.6/4);
+    const MFS = StyleSheet.flatten([ TB.MultiFunc, {
+      width: MFSize,
+      height: MFSize,
+      left: (Dimensions.get('window').width / 2) - (MFSize/2),
+      // top: 15,
+      bottom: 20,
+    } ]);
 
-    // cleanup function
-    return () => {
-      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    const MFIcon = () => {
+      switch(state.routeNames[state.index]){
+        case 'Inventory':
+          return <Barcode width={MFSize*0.7} height={MFSize*0.7} style={{transform: [{ rotate: '-45deg'}]}} />
+          break;
+        default:
+          return <Plus width={MFSize*0.7} height={MFSize*0.7} style={{transform: [{ rotate: '-45deg'}]}} />
+      }
+    }
+  
+    return(
+      <TouchableHighlight style={ MFS } onPress={onPress} activeOpacity={0.9} underlayColor={Colors.color1} >
+        <MFIcon />
+      </TouchableHighlight>
+    )
+  }
+
+  const RenderBackground = () => {
+    return (
+      <Svg width={TabBarWidth} height={TabBarHeight} viewBox={`0 0 ${ViewBox.width} ${ViewBox.height}`} style={{backgroundColor:'transparent'}}>
+        <Defs>
+          <RadialGradient id='GlowGradient' cx={128.03} cy={131.304} r={127.97} gradientTransform='matrix(1 -.002 -.002 -1 .294 262.894)' gradientUnits='userSpaceOnUse'><Stop offset={0} stopColor='#5663ff' /><Stop offset={0.498} stopColor='#5663ff' stopOpacity={0.502} /><Stop offset={0.879} stopColor='#5663ff' stopOpacity={0.051} /><Stop offset={1} stopColor='#5663ff' stopOpacity={0} /></RadialGradient>
+          <RadialGradient id='ShadowCornerGradient' cx={0.5} cy={0.5} r={0.5} gradientUnits='objectBoundingBox'><Stop offset={0} stopOpacity={0.102} /><Stop offset={0.038} stopOpacity={0.102} /><Stop offset={0.268} stopOpacity={0.102} /><Stop offset={0.423} stopOpacity={0.031} /><Stop offset={0.661} stopOpacity={0} /><Stop offset={1} stopOpacity={0} /></RadialGradient>
+          <LinearGradient id='ShadowTopGradient' x1={0.5} x2={0.5} y2={1} gradientUnits='objectBoundingBox'><Stop offset={0} stopOpacity={0} /><Stop offset={0.17} stopOpacity={0} /><Stop offset={0.289} stopOpacity={0.031} /><Stop offset={0.368} stopOpacity={0.102} /><Stop offset={1} stopOpacity={0.102} /></LinearGradient>
+          <ClipPath id='clip-path'><Rect id="TopRightMask" width="77" height="256" transform="translate(1048)" fill="#fff"/></ClipPath>
+        </Defs>
+        <G id='TabBarMk2' transform='translate(-24 .8)'>
+          <G id='FakeShadow' transform='translate(24 .2)'>
+            <Path id='FakeShadowMain' fill='url(#ShadowTopGradient)' d='M0 0H971V256H0z' transform='translate(77 -1)' />
+            <G id='FakeShadowTopRight' clipPath='url(#clip-path)' transform='translate(0 -1)'><Circle id='FakeShadowTopRight-2' cx={128} cy={128} r={128} fill='url(#ShadowCornerGradient)' data-name='FakeShadowTopRight' transform='translate(920)' /></G>
+            <G id='FakeShadowTopleft' clipPath='url(#clip-path)' transform='translate(-1048 -1)'><Circle id='FakeShadowTopLeft-2' cx={128} cy={128} r={128} fill='url(#ShadowCornerGradient)' data-name='FakeShadowTopLeft' transform='translate(997)' /></G>
+          </G>
+  
+          <Path id='TabBarPath' fill='#fff' d='M438.626,91.1a32.324,32.324,0,0,1,32.094,28.5l2.5,20.1a42.2,42.2,0,0,0,12,24.6l62.489,62.3a54.426,54.426,0,0,0,76.586,0L687.282,164a42.275,42.275,0,0,0,12.2-25.6l1.9-18.8a32.241,32.241,0,0,1,32.094-28.5h335.44A80.142,80.142,0,0,1,1149,171.2v84.6H24V171.2a80.078,80.078,0,0,1,80.086-80.1H438.626Z' transform='translate(0 -.2)' />
+  
+          <G id='MultiFunc' transform='translate(458.818 .2)'>
+            <Circle id='Glow' cx={128} cy={128} r={128} fill='url(#GlowGradient)' />
+            {/* <Path id='MultiFuncPath' fill='#5663ff' d='M31.787,87.332,87.332,31.787a44.86,44.86,0,0,1,63.537,0l55.545,55.545a44.86,44.86,0,0,1,0,63.537l-55.545,55.545a44.86,44.86,0,0,1-63.537,0L31.787,150.868A44.86,44.86,0,0,1,31.787,87.332Z' transform='translate(7.884 -.2)' /> */}
+          </G>
+        </G>
+      </Svg>
+    );
+  }
+
+  const RenderButtons = (route, index) => {
+    const { options } = descriptors[route.key];
+    const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : route.name;
+
+    const isFocused = state.index === index;
+
+    const onRoutePress = () => {
+      if(route.name=='MULTIFUNC'){return} // Do nothing for the placeholder/spacer item
+      const event = navigation.emit({ type: 'tabPress', target: route.key, });
+
+      if (!isFocused && !event.defaultPrevented) {
+        navigation.navigate(route.name);
+      }
     };
-  }, []);
 
-  const _keyboardDidShow = () => {
-    setIsVisible(false);
-  };
+    const onLongPress = () => {
+      navigation.emit({
+        type: 'tabLongPress',
+        target: route.key,
+      });
+    };
 
-  const _keyboardDidHide = () => {
-    setIsVisible(true);
-  };
+    const RouteButton = (P) =>{
+      const iconSize = TabBarHeight*(2.75/4);
+      switch(route.name){
+        case 'Inventory':
+          return <Inventory width={iconSize} height={iconSize} isActive={isFocused} {...P} />
+          break;
+        case 'Recipies':
+          return <Recipies width={iconSize} height={iconSize} isActive={isFocused} {...P}/>
+          break;
+        case 'Feed':
+          return <Feed width={iconSize} height={iconSize} isActive={isFocused} {...P}/>
+          break;
+        case 'Profile':
+            return <Profile width={iconSize} height={iconSize} isActive={isFocused} {...P}/>
+          break;
+        case 'MULTIFUNC':
+            return <View width={iconSize} height={iconSize} style={{marginLeft:10,marginRight:10}}></View>
+            // return <Feed width={iconSize} height={iconSize} isActive={isFocused} {...P} />
+          break;
+        default:
+          break;
+          // return <Inventory width={iconSize} height={iconSize}/>
+      }
+    }
 
+    return (
+      <TouchableOpacity
+        accessibilityRole="button"
+        accessibilityStates={isFocused ? ['selected'] : []}
+        accessibilityLabel={options.tabBarAccessibilityLabel}
+        testID={options.tabBarTestID}
+        onPress={onRoutePress}
+        onLongPress={onLongPress}
+        key={route.key}
+      >
+        <RouteButton style={TB.RouteButton} />
+      </TouchableOpacity>
+    );
+  }
+  
   return (
-    // <View style={{ flexDirection: 'row', display: isVisible ? null : 'none' }}>
-    <View style={S.dev} pointerEvents="box-none">
-      <MultiFunc />
-      <View style={ StyleSheet.flatten([S.BottomTabBar, {display: isVisible ? null : 'none'}]) }>
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
-          const label =
-            options.tabBarLabel !== undefined
-              ? options.tabBarLabel
-              : options.title !== undefined
-              ? options.title
-              : route.name;
-
-          const isFocused = state.index === index;
-
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
-
-          const onLongPress = () => {
-            navigation.emit({
-              type: 'tabLongPress',
-              target: route.key,
-            });
-          };
-
-          const renderIcon = () =>{
-            iconSize = 50;
-            switch(route.name){
-              case 'Inventory':
-                return <Inventory width={iconSize} height={iconSize} isActive={isFocused} />
-                break;
-              case 'Recipies':
-                return <Recipies width={iconSize} height={iconSize} isActive={isFocused}/>
-                break;
-              case 'Feed':
-                return <Feed width={iconSize} height={iconSize} isActive={isFocused}/>
-                break;
-              case 'Profile':
-                return <Profile width={iconSize} height={iconSize} isActive={isFocused}/>
-                break;
-              case 'MULTIFUNC':
-                return <View />
-                break;
-              default:
-                return <Inventory width={iconSize} height={iconSize}/>
-            }
-          }
-
-          return (
-            <TouchableOpacity
-              accessibilityRole="button"
-              accessibilityStates={isFocused ? ['selected'] : []}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              style={ S.TabItem }
-              key={route.key}
-            >
-              {/* <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
-                {label}
-              </Text> */}
-              {renderIcon(route.name)}
-              
-            </TouchableOpacity>
-          );
-        })}      
-
+    <View style={ StyleSheet.flatten([ TB.Container, {height: TabBarHeight} ]) } pointerEvents='box-none'>
+      <View style={TB.SvgBackground} pointerEvents='none'>
+        <RenderBackground />
+      </View>
+      <MultiFunction />
+      <View style={TB.ActiveRegion}>
+        {state.routes.map(RenderButtons)}
       </View>
     </View>
   );
 }
 
-const S = StyleSheet.create({
-  BottomTabBar:{
+const TB = StyleSheet.create({
+  Container:{
+    width: '100%',
     position: 'absolute',
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor: 'red',
-    // backgroundColor: '#F3F3F3',
-    backgroundColor: 'white',
-    bottom: 0,
-    height: 50,
-    width: Dimensions.get('window').width,
-    borderTopLeftRadius: 25, 
-    borderTopRightRadius: 25,
-    // borderWidth: 1,
-    elevation: 25,
-  },
-  TabItem:{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    // backgroundColor: '#CCC',
-    // borderWidth: 1,
-  },
-  dev:{
-    position: 'absolute',
+    left: 0,
     bottom: 0,
     backgroundColor: 'transparent',
-    // backgroundColor: 'yellow',
-    width: Dimensions.get('window').width,
-    height: 100,
+    // backgroundColor: '#322',
+    justifyContent: 'flex-end',
+  },
+  SvgBackground: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+  },
+  ActiveRegion:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // position: 'absolute',
+    width: '100%',
+    left: 0,
+    bottom: 0,
+    // backgroundColor: '#00AAFFC0',
+  },
+  RouteButton: {
+    marginLeft: 7.5,
+    marginRight: 7.5,
+  },
+  MultiFunc: {
+    // backgroundColor: '#FFAA0080',
+    backgroundColor: Colors.color2,
+    position: 'absolute',
+    borderRadius: 15,
+    transform: [{ rotate: '45deg'}],
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

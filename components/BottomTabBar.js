@@ -20,8 +20,9 @@ import Recipies from 'Monch/assets/SVG/Recipies.jsx';
 import Feed from 'Monch/assets/SVG/Feed.jsx';
 import Profile from 'Monch/assets/SVG/Profile.jsx';
 
-import Plus from 'Monch/assets/SVG/Plus.jsx';
 import Barcode from 'Monch/assets/SVG/Barcode.jsx';
+import RollingPin from 'Monch/assets/SVG/RollingPin.jsx';
+import Plus from 'Monch/assets/SVG/Plus.jsx';
 
 function BottomTabBar({ state, descriptors, navigation }) {
   const ViewBox = { width: 1120, height: 256, };
@@ -47,6 +48,9 @@ function BottomTabBar({ state, descriptors, navigation }) {
       switch(state.routeNames[state.index]){
         case 'Inventory':
           return <Barcode width={MFSize*0.7} height={MFSize*0.7} style={{transform: [{ rotate: '-45deg'}]}} />
+          break;
+        case 'Recipies':
+          return <RollingPin width={MFSize*0.7} height={MFSize*0.7} style={{transform: [{ rotate: '-45deg'}]}} />
           break;
         default:
           return <Plus width={MFSize*0.7} height={MFSize*0.7} style={{transform: [{ rotate: '-45deg'}]}} />

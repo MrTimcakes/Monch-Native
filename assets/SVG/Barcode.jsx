@@ -3,9 +3,9 @@ import Svg, { G, Path } from 'react-native-svg';
 
 function SvgComponent(props) {
   return (
-    <Svg width={107} height={107} viewBox='0 0 107 107' {...props}>
-      <G id='MFIcons' transform='translate(-352 -1282)'>
-        <G id='Barcode' transform='translate(361.979 1302.818)' fill='none' stroke='#fff' strokeLinecap='round' strokeLinejoin='round' strokeWidth={5.682}>
+    <Svg width={100} height={100} viewBox='0 0 100 100' {...props}>
+      <G id='MFIcons4' transform='translate(-355 -1285)'>
+        <G id='Barcode' fill='none' stroke='#fff' strokeLinecap='round' strokeLinejoin='round' strokeWidth={4} transform='translate(361.979 1302.818)'>
           <Path id='Path_436' d='M623.8,73.4l7.9-.1a6.552,6.552,0,0,0,6.5-6.5V15.3a6.552,6.552,0,0,0-6.5-6.5l-7.9.1' transform='translate(-552.09 -8.8)' />
           <Path id='Path_437' d='M566.4,8.8l-8.2.1a6.17,6.17,0,0,0-6.1,6.3V67a6.236,6.236,0,0,0,5.9,6.5h.2l8.2-.1' transform='translate(-552.09 -8.8)' />
           <Path id='Line_99' d='M623.8,26.8V55.4' transform='translate(-552.09 -8.8)' />

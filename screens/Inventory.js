@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { 
   SearchBar,
 } from 'react-native-elements';
+import { createStackNavigator } from '@react-navigation/stack';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
 import MonchHeader from 'Monch/components/MonchHeader';
+
+import ScanScreen from 'Monch/screens/ScanScreen';
 
 function InventoryItem( item ) {
   return (
@@ -43,20 +46,28 @@ const InvItemStyles = StyleSheet.create({
   },
 })
 
-function InventoryScreen(props) {
+function InventoryScreen(P) {
   const [search, setSearch] = useState('');
   const [InventoryData, SetInventoryData] = useState(
       {Inventory:[]}
     );
 
-  props.firebase.firestore().collection("inventories").doc(props.firebase.auth().currentUser.uid).onSnapshot(function(doc) {
-    if (doc.exists) {
-      SetInventoryData( doc.data() )
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
+  useEffect(() => {
+    let uid = P.firebase.auth().currentUser.uid;
+    if(uid){
+      var unsubscribe = P.firebase.firestore().collection("inventories").doc(uid).onSnapshot(function(doc) {
+        if (doc.exists) {
+          SetInventoryData( doc.data() )
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+
     }
-  })
+
+    return unsubscribe;
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,4 +98,22 @@ const styles = StyleSheet.create({
   }
 })
 
-export default withFirebaseHOC(InventoryScreen)
+const Stack = createStackNavigator();
+function StackContainer(P){
+
+  useEffect(() => { return P.navigation.addListener("MultiFuncPress", MuliFuncAction); }, [P.navigation]); // Add listener for MultiFunction Button
+  const MuliFuncAction = () => {
+    if( !P.navigation.isFocused() ){return} // If not focused do nothing
+    P.navigation.navigate("Scan");
+  }
+
+
+  return (
+    <Stack.Navigator headerMode="none" initialRouteName="InventoryRoot">
+      <Stack.Screen name="InventoryRoot" component={withFirebaseHOC(InventoryScreen)} />
+      <Stack.Screen name="Scan" component={withFirebaseHOC(ScanScreen)} />
+    </Stack.Navigator>
+  );
+}
+
+export default StackContainer

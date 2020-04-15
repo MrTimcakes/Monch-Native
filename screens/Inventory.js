@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, } from 'react-native';
+import { View, Image, TouchableOpacity, FlatList, StyleSheet, Text, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { 
   SearchBar,
@@ -17,7 +17,10 @@ function InventoryItem( item ) {
       <View style={InvItemStyles.ProductImageContainer}>
         { item.image_front_thumb_url && <Image style={InvItemStyles.ProductImage} source={{uri: item.image_front_thumb_url}} /> }
       </View>
-      <Text style={InvItemStyles.ProductName}>{item.product_name}</Text>
+      <View style={InvItemStyles.info}>
+        <Text style={InvItemStyles.ProductName}>{item.product_name}</Text>
+        <Text style={InvItemStyles.quantity}>{item.quantity}</Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -25,13 +28,12 @@ function InventoryItem( item ) {
 const InvItemStyles = StyleSheet.create({
   ItemContainer: {
     flex: 1,
+    // backgroundColor: '#325466',
     flexDirection: 'row',
     alignItems: 'center',
     paddingTop: 5,
     paddingBottom: 5,
-  },
-  ProductName:{
-    //
+    // width: '100%',
   },
   ProductImageContainer:{
     width: 50,
@@ -43,43 +45,68 @@ const InvItemStyles = StyleSheet.create({
     flex: 1,
     width: undefined,
     height: undefined,
+    borderRadius: 10,
   },
+  info:{
+    // backgroundColor: '#6668',
+    width: '80%',
+    // marginRight: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  quantity:{
+
+  }
 })
 
 function InventoryScreen(P) {
   const [search, setSearch] = useState('');
-  const [InventoryData, SetInventoryData] = useState(
-      {Inventory:[]}
-    );
+  const [inventoryData, setInventoryData] = useState(null);
+  const [refreshing, setRefreshing] = React.useState(true);
+
+  const ForceFetch = () => {
+    let uid = P.firebase.auth().currentUser.uid;
+    P.firebase.firestore().collection("inventories").doc(uid).get().then((doc) => {
+      if (doc.exists) {
+        setInventoryData( Object.entries(doc.data()) );
+      }
+      setRefreshing(false);
+    }).catch(function(error) {
+      console.log("Error getting document:", error);
+    });
+  }
 
   useEffect(() => {
     let uid = P.firebase.auth().currentUser.uid;
-    if(uid){
-      var unsubscribe = P.firebase.firestore().collection("inventories").doc(uid).onSnapshot(function(doc) {
-        if (doc.exists) {
-          SetInventoryData( doc.data() )
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-
-    }
+    var unsubscribe = P.firebase.firestore().collection("inventories").doc(uid).onSnapshot((doc) => {
+      if (doc.exists) {
+        setInventoryData( Object.entries(doc.data()) );
+      }
+      setRefreshing(false);
+    })
 
     return unsubscribe;
-  });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <MonchHeader />
       <SearchBar placeholder="Search Your Inventory" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'transparent'}}/>
       <FlatList style={styles.listContainer}
-        data={InventoryData.Inventory}
-        renderItem={({ item }) => (
-          <InventoryItem {...item} />
-        )}
-        keyExtractor={item => item.uuid}
+        data={inventoryData}
+        renderItem={({ item }) => ( <InventoryItem {...item[1]} /> )}
+        keyExtractor={item => item[1].uid}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={ForceFetch}
+          />
+        }
       />
+      {/* <FlatList style={styles.listContainer}
+        data={inventoryData} 
+      /> */}
     </SafeAreaView>
   );
 }

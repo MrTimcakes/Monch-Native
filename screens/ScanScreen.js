@@ -12,15 +12,18 @@ import {
 } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
+import { createID } from 'Monch/utilities/utilities'
+
 import Colors from 'Monch/constants/Colors';
 
 import SwipeablePanel from 'Monch/components/SwipeablePanel';
 
 import Nutriscore from 'Monch/assets/SVG/Nutriscore';
 import Plus from 'Monch/assets/SVG/Plus';
-import Glow from 'Monch/assets/SVG/Glow';
 
-export default function ScanScreen(P) {
+import firebase from 'firebase/app';
+
+export default function ScanScreen({firebase}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [productData, setProductData] = useState(null);
@@ -37,19 +40,29 @@ export default function ScanScreen(P) {
   }, []);
 
   const handleBarCodeScanned = async ({ type, data }) => {
-    setScanned(true);
-    // let productName = (await (await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)).json()).product.product_name
-    // alert(`Bar code with type ${type} and data ${data} has been scanned! Product: ${productName}`);
     setProductData( (await (await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)).json()) )
+    setScanned(true);
   };
 
   const handleAddToInventory = () => {
-    let uid = P.firebase.auth().currentUser.uid;
-    // console.log(productData.code);
-    // console.log(uid);
-    // console.log(P.firebase.firestore.FieldValue);
-    P.firebase.firestore().collection("inventories").doc(uid).update({
-      Inventory: P.firebase.firestore.FieldValue.arrayUnion({code: productData.code, ...productData.product})
+    let uid = firebase.auth().currentUser.uid;
+    firebase.firestore().collection("inventories").doc(uid).set({
+      [productData.product.product_name]: {
+        code: productData.code, 
+        product_name: productData.product.product_name,
+        image_front_thumb_url: productData.product.image_front_thumb_url,
+        quantity: firebase.firestore.FieldValue.increment(1),
+        dateModified: Date.now(),
+        dataSource: 'OpenFoodFacts',
+        uid: createID(),
+      }
+    }, { merge: true })
+    .then(function() {
+      setProductData(null);
+      setScanned(false);
+    })
+    .catch(function(error) {
+      alert("Something went wrong, try again later\nError: ", error);
     });
   }
 
@@ -58,7 +71,7 @@ export default function ScanScreen(P) {
     if(!productData){
       return (
         <View style={SS.loading}>
-          <ActivityIndicator size="large" color="#0000ff" style={{transform: [{ scale: 2 }]}} />
+          <ActivityIndicator size="large" color={Colors.color2} style={{transform: [{ scale: 2 }]}} />
         </View>
       )
     }

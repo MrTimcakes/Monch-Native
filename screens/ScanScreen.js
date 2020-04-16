@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-import { createID } from 'Monch/utilities/utilities'
+import uuid from 'uuid';
 
 import Colors from 'Monch/constants/Colors';
 
@@ -54,7 +54,7 @@ export default function ScanScreen({firebase}) {
         quantity: firebase.firestore.FieldValue.increment(1),
         dateModified: Date.now(),
         dataSource: 'OpenFoodFacts',
-        uid: createID(),
+        uuid: uuid.v4(),
       }
     }, { merge: true })
     .then(function() {

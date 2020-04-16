@@ -1,29 +1,67 @@
 import React, {useEffect, useState} from 'react'
 import {
   View,
-  ScrollView,
-  Text,
+  RefreshControl,
 } from "react-native";
 
 import { createStackNavigator } from '@react-navigation/stack';
 
 import NewProfilePostScreen from 'Monch/screens/NewProfilePost';
+import PostListScreen from 'Monch/screens/PostList';
 
 import ProfileHead from '../components/ProfileHead';
 import PhotoGrid from '../components/PhotoGrid';
-import Posts from '../constants/dummyData';
 
 import { withFirebaseHOC } from '../utilities/Firebase'
 
-function ProfileScreen(props) {
+function ProfileScreen(P) {
+  const profileID = P.route.params?.profileID ?? P.firebase.auth().currentUser.uid;
+  const [refreshing, setRefreshing] = useState(true);
+  const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    props.navigation.setOptions({ title: 'MrTimcakes' })
+    // P.navigation.setOptions({ title: 'MrTimcakes' })
+    fetchProfile();
+    fetchPosts();
   }, []);
+
+  const fetchProfile = (uid = profileID) =>{
+    P.firebase.firestore().collection("users").doc(uid).get().then(function(doc) {
+      if (doc.exists) {
+        P.navigation.setOptions({ title: doc.data().username })
+        setProfile(doc.data());
+      } else {
+          // doc.data() will be undefined in this case
+          alert("User does not exist!");
+      }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+  }
+
+  const fetchPosts = (uid = profileID) => {
+    P.firebase.firestore().collection("users").doc(uid).collection("posts").get().then(function(querySnapshot) {
+      let allPosts = [];
+      querySnapshot.forEach(function(doc) {
+        allPosts = [...allPosts, doc.data()];
+        // console.log(doc.id, " => ", doc.data());
+      });
+      setPosts(allPosts);
+      setRefreshing(false);
+    });
+  }
 
   return (
     <View>
       {/* <ProfileHead /> */}
-      <PhotoGrid data={Posts} ListHeaderComponent={ProfileHead} />
+      <PhotoGrid 
+        data={posts}
+        ListHeaderComponent={ProfileHead}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={fetchPosts} />
+        }  
+      />
     </View>
   );
 }
@@ -41,6 +79,7 @@ function ProfileNavigator(P){
     <Stack.Navigator initialRouteName="Profile">
       <Stack.Screen name="Profile" component={withFirebaseHOC(ProfileScreen)} options={{ headerShown: true }} />
       <Stack.Screen name="New Post" component={withFirebaseHOC(NewProfilePostScreen)} />
+      <Stack.Screen name="Post List" component={withFirebaseHOC(PostListScreen)} />
     </Stack.Navigator>
   );
 }

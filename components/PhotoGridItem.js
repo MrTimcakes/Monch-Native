@@ -1,10 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Square from './Square';
 
 export default function PhotoGridItem(props){
+  const navigation = useNavigation();
   const { hasMulti } = props;
   return (
     <Square
@@ -15,10 +17,9 @@ export default function PhotoGridItem(props){
       }}
     >
       <TouchableOpacity
-        // onPress={() =>
-        //  Navigate to post page
-        //   NavigationService.navigate('Profile_Details', { item: props })
-        // }
+        onPress={() =>{
+          navigation.navigate("Post List", { postId: props.postId })
+        }}
         activeOpacity={0.6}
         style={{ flex: 1 }}
       >
@@ -27,7 +28,7 @@ export default function PhotoGridItem(props){
             resizeMode: 'cover',
             flex: 1,
           }}
-          source={props.source}
+          source={{uri: props.image}}
         />
       </TouchableOpacity>
 

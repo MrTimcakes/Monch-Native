@@ -14,7 +14,7 @@ export default function PhotoGrid(props){
       }}
       contentContainerStyle={{ marginBottom: 64 }}
       renderItem={({ item }) => <PhotoGridItem {...item} />}
-      keyExtractor={(item, index) => item.key + ' ' + index}
+      keyExtractor={(item, index) => item.postId}
       {...props}
     />
   );

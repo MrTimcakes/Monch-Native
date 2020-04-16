@@ -126,14 +126,12 @@ const styles = StyleSheet.create({
 })
 
 const Stack = createStackNavigator();
-function StackContainer(P){
-
+function InventoryNavigator(P){
   useEffect(() => { return P.navigation.addListener("MultiFuncPress", MuliFuncAction); }, [P.navigation]); // Add listener for MultiFunction Button
   const MuliFuncAction = () => {
     if( !P.navigation.isFocused() ){return} // If not focused do nothing
     P.navigation.navigate("Scan");
   }
-
 
   return (
     <Stack.Navigator headerMode="none" initialRouteName="InventoryRoot">
@@ -143,4 +141,4 @@ function StackContainer(P){
   );
 }
 
-export default StackContainer
+export default InventoryNavigator

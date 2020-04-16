@@ -96,7 +96,7 @@ function InventoryScreen(P) {
       <FlatList style={styles.listContainer}
         data={inventoryData}
         renderItem={({ item }) => ( <InventoryItem {...item[1]} /> )}
-        keyExtractor={item => item[1].uid}
+        keyExtractor={item => item[1].uuid}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

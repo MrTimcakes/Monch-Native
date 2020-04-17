@@ -45,6 +45,9 @@ const Firebase = {
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
   },
+  get username() {
+    return (firebase.auth().currentUser || {}).displayName;
+  },
   get timestamp() {
     return Date.now();
   },
@@ -82,6 +85,7 @@ const Firebase = {
       firebase.firestore().collection('users').doc(this.uid).collection('posts').doc(postID).set({
         description: desc,
         authorUid: this.uid,
+        authorUsername: this.username,
         postId: postID,
         timestamp: this.timestamp,
         imageWidth: width,

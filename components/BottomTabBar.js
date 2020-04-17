@@ -30,6 +30,26 @@ function BottomTabBar({ state, descriptors, navigation }) {
   const TabBarWidth = Dimensions.get('window').width;
   const TabBarHeight = Dimensions.get('window').width * (ViewBox.height/ViewBox.width);
 
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false); // Sate to hide tab bar when keyboard visible
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    setIsKeyboardVisible(false);
+  };
+
+  const _keyboardDidHide = () => {
+    setIsKeyboardVisible(true);
+  };
+
   const MultiFunction = () => {  
     const onPress = ()=>{
       navigation.emit({ type: 'MultiFuncPress' });
@@ -153,17 +173,22 @@ function BottomTabBar({ state, descriptors, navigation }) {
     );
   }
   
-  return (
-    <View style={ StyleSheet.flatten([ TB.Container, {height: TabBarHeight} ]) } pointerEvents='box-none'>
-      <View style={TB.SvgBackground} pointerEvents='none'>
-        <RenderBackground />
+  if(isKeyboardVisible){
+    return (
+      <View style={ StyleSheet.flatten([ TB.Container, {height: TabBarHeight, } ]) } pointerEvents='box-none'>
+        <View style={TB.SvgBackground} pointerEvents='none'>
+          <RenderBackground />
+        </View>
+        <MultiFunction />
+        <View style={TB.ActiveRegion}>
+          {state.routes.map(RenderButtons)}
+        </View>
       </View>
-      <MultiFunction />
-      <View style={TB.ActiveRegion}>
-        {state.routes.map(RenderButtons)}
-      </View>
-    </View>
-  );
+    );
+  }else{
+    return <View></View>
+  }
+
 }
 
 const TB = StyleSheet.create({

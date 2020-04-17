@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   ScrollView, 
   StyleSheet, 
@@ -9,9 +9,7 @@ import {
   FlatList,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { 
-  Avatar,
-} from 'react-native-elements';
+import TimeAgo from 'javascript-time-ago';
 
 import Colors from '../constants/Colors';
 import DummyData from '../constants/dummyData';
@@ -88,15 +86,16 @@ const S = StyleSheet.create({
 
 function PostHead(P){
   // console.log(P)
+  const { authorUid, authorUsername, location } = P.item;
   return (
     <View style={PH.container}>
       <View style={PH.head}>
-        <View style={PH.avatar}>
+        <TouchableOpacity style={PH.avatar}>
           <Text>HI</Text>
-        </View>
+        </TouchableOpacity>
         <View style={PH.info}>
-          <Text style={PH.username}>{P.item.account}</Text>
-          <Text style={PH.location}>Location</Text>
+          <TouchableOpacity><Text style={PH.username}>{authorUsername ?? 'PLACEHOLDER'}</Text></TouchableOpacity>
+          <Text style={PH.location}>{location?.shortName ?? ''}</Text>
         </View>
       </View>
     </View>
@@ -147,41 +146,37 @@ const PH = StyleSheet.create({
 });
 
 function PostImage(P){
+  const { imageWidth, imageHeight, image } = P.item;
+  const aspect = imageWidth / imageHeight || 1;
+
   return (
-    <View style={PI.container}>
+    <View style={{
+      backgroundColor: "#D8D8D8",
+      width: "100%",
+      aspectRatio: aspect
+    }}>
       {/* <Text>Image</Text> */}
-      <Image style={PI.image} source={{ uri: P.item.source.uri, }} />
+      <Image style={{ width: '100%', height: '100%', }} source={{ uri: image, }} resizeMode='contain' />
     </View>
     )
 }
 
-const PI = StyleSheet.create({
-  container: {
-    backgroundColor: '#00AA00',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: 300,
-    zIndex: 0,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  }
-});
-
 function PostBody(P){
+  const { authorUid, authorUsername, location, description, likes, postId, recipie, timestamp } = P.item;
+  const timeAgo = new TimeAgo('en-US')
   return (
     <View style={PB.container}>
       <View style={PB.buttons}>
-        <Text>130 Likes</Text>
+        <Text>{likes ?? '0'} Likes</Text>
       </View>
-      <TouchableOpacity><Text style={PB.recipie}>Recipie: Grilled Salmon & Salad Lunch</Text></TouchableOpacity>
+      {recipie ? // TODO: Link to recipie via recipie?.uuid
+        <TouchableOpacity><Text style={PB.recipie}>Recipie: {recipie?.shortName ?? 'Missing'}</Text></TouchableOpacity>
+      : null }
       <View style={PB.descContainer}>
-        <TouchableOpacity><Text style={PB.username}>{P.item.account}: </Text></TouchableOpacity>
-        <Text>Lunch #MonchApp</Text>
+        <TouchableOpacity><Text style={PB.username}>{authorUsername}: </Text></TouchableOpacity>
+      <Text>{description ?? ''}</Text>
       </View>
-      <Text style={PB.timestamp}>10 Minutes Ago</Text>
+      <Text style={PB.timestamp}>{timeAgo.format(timestamp)}</Text>
     </View>
     )
   }
@@ -242,30 +237,28 @@ const Pstyles = StyleSheet.create({
 
 function FeedScreen(P) {
   // const  newData = DummyData.reverse();
+  const [feed, setFeed] = useState(null);
+  const [refreshing, setRefreshing] = useState(true);
 
-  const MuliFuncAction = () => {
-    console.log("Feed MultiFuncPress");
+  useEffect(()=>{
+    fetchPosts('OS2GbNqiREVn3WBh3y0U6zvgg4w2'); // Temporary, fetch posts from me
+  },[])
+
+  const fetchPosts = (uid) => {
+    P.firebase.firestore().collection("users").doc(uid).collection("posts").get().then(function(querySnapshot) {
+      let allPosts = [];
+      querySnapshot.forEach(function(doc) { allPosts = [...allPosts, doc.data()]; });
+      console.log( allPosts == querySnapshot )
+      setFeed(allPosts);
+      setRefreshing(false);
+    });
   }
 
-  useEffect(() => {
-    console.log("Effects Triggered");
-    var MultiFuncUnsubscribe = P.navigation.addListener('MultiFuncPress', MuliFuncAction);
-    const FocusListenerUnsub = P.navigation.addListener('focus', () => {
-      MultiFuncUnsubscribe = P.navigation.addListener('MultiFuncPress', MuliFuncAction);
-    });
-    const BlurListenerUnsub = P.navigation.addListener('blur', () => {
-      if(MultiFuncUnsubscribe){MultiFuncUnsubscribe();}
-    });
-
-    return ()=>{
-      if(MultiFuncUnsubscribe){MultiFuncUnsubscribe();}
-      if(FocusListenerUnsub){FocusListenerUnsub();}
-      if(BlurListenerUnsub){BlurListenerUnsub();}
-    };
-  }, [P.navigation]);
-
-
-
+  useEffect(() => { return P.navigation.addListener("MultiFuncPress", MuliFuncAction); }, [P.navigation]); // Add listener 
+  const MuliFuncAction = () => {
+    if( !P.navigation.isFocused() ){return} // If not focused do nothing
+    console.log("Feed MultiFuncPress");
+  }
 
 
 
@@ -276,14 +269,17 @@ function FeedScreen(P) {
       <MonchHeader />
       {/* <Stories /> */}
       <FlatList
-        ListFooterComponent={Stories}
+        // ListFooterComponent={Stories}
         // ListFooterComponentStyle={{paddingBottom: 25}}
-        ListFooterComponentStyle={{ marginTop: -25 }}
+        // ListFooterComponentStyle={{ marginTop: -25 }}
         inverted={true}
-        initialScrollIndex={DummyData.length-1}
-        data={newData}
+        // initialScrollIndex={newData.length - 1}
+        // initialScrollIndex={DummyData.length-1}
+        data={feed}
         renderItem={({ item }) => <Post item={item}/>}
         keyExtractor={item => item.postID}
+        ListHeaderComponent={<View></View>}
+        ListHeaderComponentStyle={{height:80}}
       />
     </SafeAreaView>
   );
@@ -300,7 +296,3 @@ const styles = StyleSheet.create({
 })
 
 export default withFirebaseHOC(FeedScreen)
-
-export function MultiFuncAction(P){
-  console.log("Here");
-}

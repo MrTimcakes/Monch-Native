@@ -92,11 +92,14 @@ function InventoryScreen(P) {
   return (
     <SafeAreaView style={styles.container}>
       <MonchHeader />
-      <SearchBar placeholder="Search Your Inventory" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'transparent'}}/>
+      
       <FlatList style={styles.listContainer}
         data={inventoryData}
         renderItem={({ item }) => ( <InventoryItem {...item[1]} /> )}
         keyExtractor={item => item[1].uuid}
+        ListHeaderComponent={ <SearchBar placeholder="Search Your Inventory" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'transparent'}}/> }
+        ListFooterComponent={<View></View>}
+        ListFooterComponentStyle={styles.listFooter}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -122,6 +125,10 @@ const styles = StyleSheet.create({
   listContainer:{
     flex: 1,
     width: '100%',
+  },
+  listFooter: {
+    // backgroundColor: '#333',
+    height: 80,
   }
 })
 

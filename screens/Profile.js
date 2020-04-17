@@ -47,6 +47,7 @@ function ProfileScreen(P) {
         allPosts = [...allPosts, doc.data()];
         // console.log(doc.id, " => ", doc.data());
       });
+      // console.log(JSON.stringify(allPosts))
       setPosts(allPosts);
       setRefreshing(false);
     });
@@ -58,6 +59,8 @@ function ProfileScreen(P) {
       <PhotoGrid 
         data={posts}
         ListHeaderComponent={ProfileHead}
+        ListFooterComponent={<View></View>}
+        ListFooterComponentStyle={{height: 80}}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={fetchPosts} />
         }  

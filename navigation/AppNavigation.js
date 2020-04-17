@@ -10,6 +10,7 @@ import RecipiesScreen from '../screens/Recipies';
 import FeedScreen from '../screens/Feed';
 import ProfileScreen from '../screens/Profile';
 import SettingsScreen from '../screens/Settings';
+import SignoutScreen from '../screens/auth/Signout';
 
 const Tab = createBottomTabNavigator();
 function TabContainer() {
@@ -30,6 +31,7 @@ function App() {
     <Drawer.Navigator headerMode="none" initialRouteName="App" >
       <Drawer.Screen name="App" component={TabContainer}/>
       <Drawer.Screen name="Settings" component={SettingsScreen}/>
+      <Drawer.Screen name="Sign Out" component={SignoutScreen}/>
     </Drawer.Navigator>
   );
 }

@@ -43,11 +43,11 @@ function BottomTabBar({ state, descriptors, navigation }) {
   }, []);
 
   const _keyboardDidShow = () => {
-    setIsKeyboardVisible(false);
+    setIsKeyboardVisible(true);
   };
 
   const _keyboardDidHide = () => {
-    setIsKeyboardVisible(true);
+    setIsKeyboardVisible(false);
   };
 
   const MultiFunction = () => {  
@@ -173,7 +173,7 @@ function BottomTabBar({ state, descriptors, navigation }) {
     );
   }
   
-  if(isKeyboardVisible){
+  if(!isKeyboardVisible){
     return (
       <View style={ StyleSheet.flatten([ TB.Container, {height: TabBarHeight, } ]) } pointerEvents='box-none'>
         <View style={TB.SvgBackground} pointerEvents='none'>

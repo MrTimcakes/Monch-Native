@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {
   View,
+  Text,
   RefreshControl,
 } from "react-native";
 
@@ -53,14 +54,24 @@ function ProfileScreen(P) {
     });
   }
 
+  const ProfileEmpty = () =>{
+    return (
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text>Oh no, looks like this user doesn't have any posts!</Text>
+        <Text>Don't you think they should add some?</Text>
+      </View>
+    )
+  }
+
   return (
     <View>
       {/* <ProfileHead /> */}
       <PhotoGrid 
         data={posts}
-        ListHeaderComponent={ProfileHead}
+        ListHeaderComponent={<ProfileHead profile={profile} />}
         ListFooterComponent={<View></View>}
         ListFooterComponentStyle={{height: 80}}
+        ListEmptyComponent={ ProfileEmpty }
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={fetchPosts} />
         }  

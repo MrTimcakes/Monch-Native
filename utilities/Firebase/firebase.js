@@ -82,7 +82,8 @@ const Firebase = {
       const { uri: reducedImage, width, height } = await shrinkImageAsync( localUri, );
       const postID = uuid.v4();
       const remoteUri = await this.uploadPhotoAsync(reducedImage, 'userPosts', postID);
-      firebase.firestore().collection('users').doc(this.uid).collection('posts').doc(postID).set({
+      const postData = {
+        recipie: null,
         description: desc,
         authorUid: this.uid,
         authorUsername: this.username,
@@ -93,7 +94,42 @@ const Firebase = {
         image: remoteUri,
         user: getUserInfo(),
         likes: 0,
+      };
+
+      firebase.firestore().collection('users').doc(this.uid).collection('posts').doc(postID).set(postData);
+      firebase.firestore().collection('globalPosts').doc(postID).set(postData); // Upload to the global post list TEMPORARY
+    } catch ({ message }) {
+      alert(message);
+    }
+  },
+  async getPaged({ size, start }) {
+    let ref = firebase.firestore().collection('globalPosts').orderBy('timestamp', 'desc').limit(size);
+    try {
+      if (start) {
+        ref = ref.startAfter(start);
+      }
+
+      const querySnapshot = await ref.get();
+      const data = [];
+      querySnapshot.forEach(function(doc) {
+        if (doc.exists) {
+          const post = doc.data() || {};
+
+          // Reduce the name
+          // const user = post.user || {};
+
+          // const name = user.deviceName;
+          const reduced = {
+            key: doc.id,
+            // name: (name || 'Secret Duck').trim(),
+            ...post,
+          };
+          data.push(reduced);
+        }
       });
+
+      const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+      return { data, cursor: lastVisible };
     } catch ({ message }) {
       alert(message);
     }

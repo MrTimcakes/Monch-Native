@@ -11,30 +11,30 @@ import {
 } from 'react-native-elements';
 import Colors from '../constants/Colors';
 
-export default function ProfileHead() {
+export default function ProfileHead({profile}) {
   return (
-    <View style={profile.Head}>
-      {/* <Avatar style={profile.Image} title="MD" /> */}
-      <Avatar style={profile.Image} source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg', }} showEditButton rounded size={"xlarge"} />
-      <View style={profile.Info}>
-        <Text style={profile.Title}>Timothy Adamson</Text>
-        <Text style={profile.Bio}>I like to eat food, a lot of food.</Text>
+    <View style={PS.Head}>
+      {/* <Avatar style={PS.Image} title="MD" /> */}
+      <Avatar style={PS.Image} source={{ uri: profile?.profileImage ?? 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg', }} rounded size={"xlarge"} />
+      <View style={PS.Info}>
+        <Text style={PS.Title}>{profile?.username ?? ''}</Text>
+        <Text style={PS.Bio}>{profile?.bio ?? 'Ask me to write a bio!'}</Text>
       </View>
-      <View style={profile.Stats}>
-      <View style={profile.Stat}>
-          <Text style={profile.StatValue}>12</Text>
-          <Text style={profile.StatTitle}>Badges</Text>
+      <View style={PS.Stats}>
+      <View style={PS.Stat}>
+          <Text style={PS.StatValue}>{profile?.badges.length.toString() ?? '0'}</Text>
+          <Text style={PS.StatTitle}>Badges</Text>
         </View>
-        <View style={profile.Stat}>
-          <Text style={profile.StatValue}>125</Text>
-          <Text style={profile.StatTitle}>Followers</Text>
+        <View style={PS.Stat}>
+          <Text style={PS.StatValue}>{profile?.followers ?? '0'}</Text>
+          <Text style={PS.StatTitle}>Followers</Text>
         </View>
-        <View style={profile.Stat}>
-          <Text style={profile.StatValue}>45</Text>
-          <Text style={profile.StatTitle}>Following</Text>
+        <View style={PS.Stat}>
+          <Text style={PS.StatValue}>{profile?.following ?? '0'}</Text>
+          <Text style={PS.StatTitle}>Following</Text>
         </View>
       </View>
-      <View style={profile.Buttons}>
+      <View style={PS.Buttons}>
         <Button title="Follow" />
         <Button title="Block" type="outline" />
       </View>
@@ -42,7 +42,7 @@ export default function ProfileHead() {
   );
   }
 
-  const profile = StyleSheet.create({
+  const PS = StyleSheet.create({
     Head: {
       alignItems: 'center'
     },
@@ -57,10 +57,12 @@ export default function ProfileHead() {
     },
     Title: {
       fontSize: 22,
+      textAlign: 'center',
       color: Colors.color4
     },
     Bio: {
       fontSize: 14,
+      textAlign: 'center',
       color: Colors.color3
     },
     Stats: {

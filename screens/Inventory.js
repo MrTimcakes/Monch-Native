@@ -89,6 +89,15 @@ function InventoryScreen(P) {
     return unsubscribe;
   }, []);
 
+  const InventoryEmpty = () => {
+    return (
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text>Oh no, looks like you don't have anything in your Invetory</Text>
+        <Text>Try adding some by pressing the button below</Text>
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <MonchHeader />
@@ -100,6 +109,7 @@ function InventoryScreen(P) {
         ListHeaderComponent={ <SearchBar placeholder="Search Your Inventory" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'transparent'}}/> }
         ListFooterComponent={<View></View>}
         ListFooterComponentStyle={styles.listFooter}
+        ListEmptyComponent={ InventoryEmpty }
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

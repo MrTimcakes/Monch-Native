@@ -18,7 +18,7 @@ export default function PhotoGridItem(props){
     >
       <TouchableOpacity
         onPress={() =>{
-          navigation.navigate("Post List", { postId: props.postId })
+          navigation.navigate("Post List", { post: props })
         }}
         activeOpacity={0.6}
         style={{ flex: 1 }}

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   ScrollView, 
-  StyleSheet, 
   Text, 
   View,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -58,21 +57,18 @@ const validationSchema = yup.object().shape({
 });
 
 
-
 function Signup({firebase, navigation}){
 
   const handleOnSignup = async (values, actions) => {
-    const { username, email, password } = values
-    console.log("Username => ", username)
-    console.log("email => ", email)
-    console.log("password => ", password)
+    const { username, email, password } = values;
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(result) {
       const userData = {
         badges: [],
-        bio: '',
+        bio: null,
         cookingSkill: 0.0,
         username: username,
+        profilePhoto: null,
         uid: result.user.uid,
         xp: 0.0,
         followers: 0,
@@ -89,88 +85,89 @@ function Signup({firebase, navigation}){
       })
     }).catch(function(error) {
       actions.setFieldError('general', error.message)
+    })
+    .finally(()=>{
+      actions.setSubmitting(false)
     });
   }
   return (
     <SafeAreaView>
-      <ImageBackground source={require('Monch/assets/images/SplitFruits.jpg')} style={{width: '100%', height: '100%'}}>
-        <LinearGradient colors={['rgba(0,0,0,0.3)', 'rgba(0,0,0,0.9)']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', }} />
-        
-        <ScrollView>
-          <View style={{alignItems: 'center'}}>
-            <TitlePath width='70%' />
-          </View>
-          <Formik
-            initialValues={{
-              username: '',
-              email: '',
-              password: '',
-              confirmPassword: '',
-              agreeToTerms: false,
-            }}
-            onSubmit={(values, actions) => {
-              handleOnSignup(values, actions)
-            }}
-            validationSchema={validationSchema}
-          >
-            {formikProps => (
-              <React.Fragment>
-                <StyledInput
-                  formikProps={formikProps}
-                  formikKey="username"
-                  placeholder="Username"
-                  autoFocus
-                />
+      <ImageBackground source={require('Monch/assets/images/SplitFruits.jpg')} style={{position: 'absolute', left: 0, right: 0, top: 0, width: Dimensions.get('window').width, height: Dimensions.get('window').height,}} resizeMode='stretch' />
+      <LinearGradient colors={['rgba(0,0,0,0.3)', 'rgba(0,0,0,0.9)']} style={{ position: 'absolute', left: 0, right: 0, top: 0, width: Dimensions.get('window').width, height: Dimensions.get('window').height }} />
+      
+      <ScrollView>
+        <View style={{alignItems: 'center'}}>
+          <TitlePath width='70%' />
+        </View>
+        <Formik
+          initialValues={{
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            agreeToTerms: false,
+          }}
+          onSubmit={(values, actions) => {
+            handleOnSignup(values, actions)
+          }}
+          validationSchema={validationSchema}
+        >
+          {formikProps => (
+            <React.Fragment>
+              <StyledInput
+                formikProps={formikProps}
+                formikKey="username"
+                placeholder="Username"
+                autoFocus
+              />
 
-                <StyledInput
-                  formikProps={formikProps}
-                  formikKey="email"
-                  placeholder="E-mail"
-                />
+              <StyledInput
+                formikProps={formikProps}
+                formikKey="email"
+                placeholder="E-mail"
+              />
 
-                <StyledInput
-                  formikProps={formikProps}
-                  formikKey="password"
-                  placeholder="Password"
-                  secureTextEntry
-                />
+              <StyledInput
+                formikProps={formikProps}
+                formikKey="password"
+                placeholder="Password"
+                secureTextEntry
+              />
 
-                <StyledInput
-                  formikProps={formikProps}
-                  formikKey="confirmPassword"
-                  placeholder="Confirm Password"
-                  secureTextEntry
-                />
+              <StyledInput
+                formikProps={formikProps}
+                formikKey="confirmPassword"
+                placeholder="Confirm Password"
+                secureTextEntry
+              />
 
-                <StyledSwitch
-                  label="Agree to Terms"
-                  formikKey="agreeToTerms"
-                  formikProps={formikProps}
-                />
+              <StyledSwitch
+                label="Agree to Terms"
+                formikKey="agreeToTerms"
+                formikProps={formikProps}
+              />
 
-                {formikProps.isSubmitting ? (
-                  <ActivityIndicator />
-                ) : (
-                  <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity onPress={formikProps.handleSubmit} style={{ 
-                      backgroundColor: Colors.color2,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: '80%',
-                      height: 60,
-                      borderRadius: 10,
-                    }}><Text style={{fontFamily: 'sans-serif', fontWeight: 'normal', fontSize: 16, color: '#fff'}}>REGISTER</Text></TouchableOpacity>
-                  </View>
-                )}
-              </React.Fragment>
-            )}
-          </Formik>
-          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 40}}>
-            <TouchableOpacity><Text style={{color:'#fff'}}>Already have an account? <Text style={{color: Colors.color1}}>Login</Text></Text></TouchableOpacity>
-          </View>
-        </ScrollView>
-
-      </ImageBackground>
+              {formikProps.isSubmitting ? (
+                <ActivityIndicator />
+              ) : (
+                <View style={{alignItems: 'center'}}>
+                  <TouchableOpacity onPress={formikProps.handleSubmit} style={{ 
+                    backgroundColor: Colors.color2,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '80%',
+                    height: 60,
+                    borderRadius: 10,
+                  }}><Text style={{fontFamily: 'sans-serif', fontWeight: 'normal', fontSize: 16, color: '#fff'}}>REGISTER</Text></TouchableOpacity>
+                </View>
+              )}
+            </React.Fragment>
+          )}
+        </Formik>
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 40}}>
+          <TouchableOpacity onPress={()=>{navigation.navigate('Login')}}><Text style={{color:'#fff'}}>Already have an account? <Text style={{color: Colors.color1}}>Login</Text></Text></TouchableOpacity>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

@@ -7,9 +7,17 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
+import { useNavigation } from '@react-navigation/native';
 
 function PostHead(P){
+  const navigation = useNavigation();
   const { authorUid, authorUsername, location } = P.item;
+
+  const handleUsernamePress = () => {
+    // navigation.navigate("Profile", {profileID: authorUid}) // TODO: does not post parrams
+    navigation.navigate("Profile", { params: { profileID: authorUid }, });
+  }
+
   return (
     <View style={PH.container}>
       <View style={PH.head}>
@@ -17,7 +25,7 @@ function PostHead(P){
           <Text>HI</Text>
         </TouchableOpacity>
         <View style={PH.info}>
-          <TouchableOpacity><Text style={PH.username}>{authorUsername ?? 'PLACEHOLDER'}</Text></TouchableOpacity>
+          <TouchableOpacity onPress={handleUsernamePress}><Text style={PH.username}>{authorUsername ?? 'PLACEHOLDER'}</Text></TouchableOpacity>
           <Text style={PH.location}>{location?.shortName ?? ''}</Text>
         </View>
       </View>

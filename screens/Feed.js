@@ -12,7 +12,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import TimeAgo from 'javascript-time-ago';
 
 import Colors from '../constants/Colors';
-import DummyData from '../constants/dummyData';
 
 import MonchHeader from 'Monch/components/MonchHeader';
 
@@ -218,7 +217,6 @@ const PB = StyleSheet.create({
 
 
 function Post(P){
-  // console.log(P)
   return (
     <View style={Pstyles.container}>
       <PostHead item={P.item} />
@@ -236,7 +234,6 @@ const Pstyles = StyleSheet.create({
 });
 
 function FeedScreen(P) {
-  // const  newData = DummyData.reverse();
   const [feed, setFeed] = useState(null);
   const [refreshing, setRefreshing] = useState(true);
 
@@ -248,7 +245,6 @@ function FeedScreen(P) {
     P.firebase.firestore().collection("users").doc(uid).collection("posts").get().then(function(querySnapshot) {
       let allPosts = [];
       querySnapshot.forEach(function(doc) { allPosts = [...allPosts, doc.data()]; });
-      console.log( allPosts == querySnapshot )
       setFeed(allPosts);
       setRefreshing(false);
     });
@@ -260,10 +256,6 @@ function FeedScreen(P) {
     console.log("Feed MultiFuncPress");
   }
 
-
-
-  const  newData = DummyData;
-
   return (
     <SafeAreaView style={styles.container}>
       <MonchHeader />
@@ -273,11 +265,10 @@ function FeedScreen(P) {
         // ListFooterComponentStyle={{paddingBottom: 25}}
         // ListFooterComponentStyle={{ marginTop: -25 }}
         inverted={true}
-        // initialScrollIndex={newData.length - 1}
-        // initialScrollIndex={DummyData.length-1}
+        // initialScrollIndex={feed.length - 1}
         data={feed}
         renderItem={({ item }) => <Post item={item}/>}
-        keyExtractor={item => item.postID}
+        keyExtractor={item => item.postId}
         ListHeaderComponent={<View></View>}
         ListHeaderComponentStyle={{height:80}}
       />

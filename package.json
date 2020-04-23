@@ -10,7 +10,10 @@
     "test": "jest --watchAll"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.(js|jsx|ts)$": "babel-jest"
+    }
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",

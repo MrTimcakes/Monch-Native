@@ -12,25 +12,11 @@ function PostList({route, firebase}){
     setPost( route.params?.post );
   }, []);
 
-  // const FetchPost = (uid = uid, postId = postId) => {
-  //   firebase.firestore().collection("users").doc(uid).collection("posts").doc(postId).get().then(function(doc) {
-  //     if (doc.exists) {
-  //       setPost( doc.data() );
-  //     } else {
-  //       // doc.data() will be undefined in this case
-  //       console.log("No such document!");
-  //     }
-  //   }).catch(function(error) {
-  //       console.log("Error getting document:", error);
-  //   });
-  
-  // }
-
   if(post){
     return(
       <ScrollView>
         <Post item={post} />
-        <View style={{height:80}}></View>
+        <View style={{height:100}}></View>
       </ScrollView>
     ) 
   }

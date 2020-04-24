@@ -1,22 +1,32 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { withFirebaseHOC } from '../utilities/Firebase'
+import React, { useState, useEffect } from 'react';
+import { 
+  ScrollView, 
+  StyleSheet, 
+  Text,
+  View,
+  Button,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+  ImageBackground,
+  FlatList,
+  TextInput,
+  Switch,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-function SettingsScreen(props) {
+
+
+import { withFirebaseHOC } from 'Monch/utilities/Firebase'
+
+function Settings({firebase}){
   return (
-    <View style={styles.container}>
-        <Text>Monch Settings!</Text>
-      </View>
+    <SafeAreaView>
+      
+      <Text>Monch Settigns</Text>
+
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
-
-export default withFirebaseHOC(SettingsScreen)
+export default withFirebaseHOC(Settings)

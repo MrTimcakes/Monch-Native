@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   View,
   StyleSheet,
@@ -14,7 +14,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { withFirebaseHOC } from '../utilities/Firebase'
 
-function Recipie(){
+import { createStackNavigator } from '@react-navigation/stack';
+import NewRecipePostScreen from './NewRecipePost';
+
+function Recipe(){
   return(
     <TouchableOpacity style={styles.recipe}>
       <Image style={styles.headerImage} source={require('../assets/temporary/Burger.jpg')} />
@@ -35,22 +38,22 @@ function CategoryCard(){
   );
 }
 
-function RecipiesScreen(props) {
+function RecipesScreen(props) {
   const [search, setSearch] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <SearchBar placeholder="Find Recipies" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'#fff'}}/>
+        <SearchBar placeholder="Find Recipes" platform="ios" onChangeText={setSearch} value={search} containerStyle={{backgroundColor:'#fff'}}/>
 
         <View style={styles.recipesContainer}>
           <View style={styles.TitleContainer}>
-            <TouchableOpacity><Text style={styles.title}>Trending Recipies</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.title}>Trending Recipes</Text></TouchableOpacity>
             <TouchableOpacity><Text style={styles.seeAll}>See all (45)</Text></TouchableOpacity>
           </View>
           <ScrollView style={styles.recipeScrollView} horizontal showsHorizontalScrollIndicator={false}>
-            <Recipie />
-            <Recipie />
-            <Recipie />
+            <Recipe />
+            <Recipe />
+            <Recipe />
           </ScrollView>
         </View>
 
@@ -75,9 +78,9 @@ function RecipiesScreen(props) {
             <TouchableOpacity><Text style={styles.seeAll}>See all (5)</Text></TouchableOpacity>
           </View>
           <ScrollView style={styles.recipeScrollView} horizontal showsHorizontalScrollIndicator={false}>
-            <Recipie />
-            <Recipie />
-            <Recipie />
+            <Recipe />
+            <Recipe />
+            <Recipe />
           </ScrollView>
         </View>
 
@@ -191,4 +194,23 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withFirebaseHOC(RecipiesScreen)
+// export default withFirebaseHOC(RecipesScreen)
+
+const Stack = createStackNavigator();
+function RecipeNavigator(P){
+  useEffect(() => { return P.navigation.addListener("MultiFuncPress", MuliFuncAction); }, [P.navigation]); // Add listener for MultiFunction Button
+  const MuliFuncAction = () => {
+    if( !P.navigation.isFocused() ){return} // If not focused do nothing
+    P.navigation.navigate("New Recipe Post");
+  }
+
+  return (
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen name="Profile" component={withFirebaseHOC(RecipesScreen)} options={{ headerShown: false }} />
+      <Stack.Screen name="New Recipe Post" component={NewRecipePostScreen} />
+      <Stack.Screen name="Recipe Guide" component={NewRecipePostScreen} />
+    </Stack.Navigator>
+  );
+}
+
+export default withFirebaseHOC(RecipeNavigator)

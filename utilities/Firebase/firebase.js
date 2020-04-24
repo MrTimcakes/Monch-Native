@@ -102,6 +102,35 @@ const Firebase = {
       alert(message);
     }
   },
+  async recipePost({ name: name, shortDescription: shortDescription, description: description, ingredients: ingredients, method: method, image: localUri }) {
+    try {
+      const postID = uuid.v4();
+      const { uri: reducedImage, width, height } = await shrinkImageAsync( localUri, );
+      const remoteUri = await this.uploadPhotoAsync(reducedImage, 'userRecipePosts', postID);
+      const postData = {
+        recipeId: postID,
+        name: name,
+        shortDescription: shortDescription,
+        description: description,
+        ingredients: ingredients,
+        method: method,
+        authorUid: this.uid,
+        authorUsername: this.username,
+        postId: postID,
+        timestamp: this.timestamp,
+        imageWidth: width,
+        imageHeight: height,
+        image: remoteUri,
+        user: getUserInfo(),
+        likes: 0,
+      };
+
+      firebase.firestore().collection('users').doc(this.uid).collection('recipePosts').doc(postID).set(postData);
+      firebase.firestore().collection('globalRecipePosts').doc(postID).set(postData); // Upload to the global post list TEMPORARY
+    } catch ({ message }) {
+      alert(message);
+    }
+  },
   async getPaged({ size, start }) {
     let ref = firebase.firestore().collection('globalPosts').orderBy('timestamp', 'desc').limit(size);
     try {

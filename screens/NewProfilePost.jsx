@@ -46,7 +46,6 @@ function SelectPhotoScreen(P){
       alert('Need valid description!');
     }
   }
-  console.log(P.firebase.uid)
   // User has uploaded an image, ask to add a caption
   if(image){
     P.navigation.setOptions({ headerRight: () => ( <TouchableOpacity onPress={handleUpload}><Text style={{marginRight:10,fontSize:16}}>SHARE</Text></TouchableOpacity> ) })

@@ -9,12 +9,14 @@ Monch suggests food recommendations and recipe guides based on the food already 
 
 Goal | Status
 :------------ | :------------ |
-Authentication | :white_check_mark:
+Signup Authentication | :white_check_mark:
+Signin Authentication | :white_check_mark:
+Password Recovery | :white_check_mark:
 Anonymous Authentication | :black_square_button:
 Inventory | :white_check_mark:
 Barcode Scan | :white_check_mark:
 Product Lookup | :white_check_mark:
-Invetory Addition | :white_check_mark:
+Inventory Addition | :white_check_mark:
 Receipt Scan | :black_square_button:
 Manual Entry | :black_square_button:
 Recipes Database | :white_check_mark:

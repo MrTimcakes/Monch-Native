@@ -1,3 +1,5 @@
+/*
+
 const ACCOUNT = 'MrTimcakes';
 
 const USER = {
@@ -111,5 +113,91 @@ const posts = [
   comments: COMMENTS,
   ...item,
 }));
+
+export default posts;
+
+*/
+
+const posts = [
+  {
+    "authorUid": "OS2GbNqiREVn3WBh3y0U6zvgg4w2",
+    "authorUsername": "MrTimcakes",
+    "description": "The first post on Monch :)",
+    "image": "https://firebasestorage.googleapis.com/v0/b/monch-firebase.appspot.com/o/userPosts%2FOS2GbNqiREVn3WBh3y0U6zvgg4w2%2F22078f5d-c3d8-4452-a526-72c5c65f6e15.jpg?alt=media&token=fbfae373-5ace-48e1-970f-8734f77ba1a2",
+    "imageHeight": 912,
+    "imageWidth": 512,
+    "likes": 12,
+    "postId": "22078f5d-c3d8-4452-a526-72c5c65f6e15",
+    "timestamp": 1587069225908,
+    "location": {
+      "shortName": "Lincoln",
+      "lat": 53.234859,
+      "long": -0.538440, 
+    },
+    "recipie": {
+      "shortName": "Grilled Salmon & Salad Lunch",
+      "uuid": "1b769f6f-4626-4a38-9e3b-c478900a5213",
+    },
+    "user": {
+      "deviceId": "8f78c1f5-7ff2-4cdc-890c-f9b75b79da2f",
+      "deviceName": "Android SDK built for x86",
+      "expoVersion": "2.15.0",
+      "installationId": "8f78c1f5-7ff2-4cdc-890c-f9b75b79da2f",
+      "platform": {
+        "android": {
+          "versionCode": null
+        }
+      }
+    }
+  },
+  {
+    "authorUid": "OS2GbNqiREVn3WBh3y0U6zvgg4w2",
+    "authorUsername": "MrTimcakes",
+    "description": "The 2nd post to Monch :o",
+    "image": "https://firebasestorage.googleapis.com/v0/b/monch-firebase.appspot.com/o/userPosts%2FOS2GbNqiREVn3WBh3y0U6zvgg4w2%2F4711e3d9-ac69-4155-a039-99f142fc7a03.jpg?alt=media&token=f4bc5d2d-ded4-4834-93c2-01b6598c9c0b",
+    "imageHeight": 747,
+    "imageWidth": 512,
+    "likes": 0,
+    "postId": "4711e3d9-ac69-4155-a039-99f142fc7a03",
+    "timestamp": 1587069375923,
+    "recipie": {
+      "shortName": "Recipie 2",
+      "uuid": "1b76asdf-4626-4a38-9e3b-c478900a5213",
+    },
+    "user": {
+      "deviceId": "8f78c1f5-7ff2-4cdc-890c-f9b75b79da2f",
+      "deviceName": "Android SDK built for x86",
+      "expoVersion": "2.15.0",
+      "installationId": "8f78c1f5-7ff2-4cdc-890c-f9b75b79da2f",
+      "platform": {
+        "android": {
+          "versionCode": null
+        }
+      }
+    }
+  },
+  {
+    "authorUid": "OS2GbNqiREVn3WBh3y0U6zvgg4w2",
+    "authorUsername": "MrTimcakes",
+    "description": "Mel's snacc",
+    "image": "https://firebasestorage.googleapis.com/v0/b/monch-firebase.appspot.com/o/userPosts%2FOS2GbNqiREVn3WBh3y0U6zvgg4w2%2F694d94ad-72dc-434f-96b6-c666ed060bd2.jpg?alt=media&token=e92bc14e-f633-407e-95f7-91e5eec95c20",
+    "imageHeight": 910,
+    "imageWidth": 512,
+    "likes": 0,
+    "postId": "694d94ad-72dc-434f-96b6-c666ed060bd2",
+    "timestamp": 1587073364983,
+    "user": {
+      "deviceId": "24fe1b5b-3ab4-4d1d-80a7-b9f8143c27db",
+      "deviceName": "ONEPLUS A5000",
+      "expoVersion": "2.15.4",
+      "installationId": "24fe1b5b-3ab4-4d1d-80a7-b9f8143c27db",
+      "platform": {
+        "android": {
+          "versionCode": null
+        }
+      }
+    }
+  }
+]
 
 export default posts;

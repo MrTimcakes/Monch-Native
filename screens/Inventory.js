@@ -11,15 +11,28 @@ import MonchHeader from 'Monch/components/MonchHeader';
 
 import ScanScreen from 'Monch/screens/ScanScreen';
 
+import Colors from 'Monch/constants/Colors';
+
 function InventoryItem( item ) {
+
+  String.prototype.trunc = function(n){ return this.substr(0,n-1)+(this.length>n?'...':''); };
+
   return (
     <TouchableOpacity style={InvItemStyles.ItemContainer}>
       <View style={InvItemStyles.ProductImageContainer}>
         { item.image_front_thumb_url && <Image style={InvItemStyles.ProductImage} source={{uri: item.image_front_thumb_url}} /> }
       </View>
       <View style={InvItemStyles.info}>
-        <Text style={InvItemStyles.ProductName}>{item.product_name}</Text>
-        <Text style={InvItemStyles.quantity}>{item.quantity}</Text>
+        <Text style={InvItemStyles.ProductName}>{item.product_name.trunc(30)}</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',}}>
+          <TouchableOpacity style={InvItemStyles.button}>
+            <Text style={{color: '#fff'}}>-</Text>
+          </TouchableOpacity>
+          <Text style={InvItemStyles.quantity}>{item.quantity}</Text>
+          <TouchableOpacity style={InvItemStyles.button}>
+            <Text style={{color: '#fff'}}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -54,6 +67,16 @@ const InvItemStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  button:{
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    backgroundColor: Colors.color2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 5,
+    marginRight: 5,
   },
   quantity:{
 

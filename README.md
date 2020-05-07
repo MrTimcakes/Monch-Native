@@ -4,6 +4,8 @@
 
 Monch suggests food recommendations and recipe guides based on the food already at home. Monch learns what ingredients are available from receipts or product barcodes and suggests recipes based on meals similar users have enjoyed.
 
+Currently, as of 07/05/2020 Monch is incomplete but the idea of the app is to be a platform for food recommendations and recipe guides based on the food already at home. Monch learns what ingredients are available from receipts or product barcodes and suggests recipes based on meals similar users have enjoyed. The app is also to act as a social media platform enabling the distribution of recipes through promotional type posts from chefs or discovery of what friends have recently cooked. To drive user engagement, elements of gamification are leveraged for each individual user allowing them to accrue experience and publicly visible badges. The platform is built using a serverless architecture designed for instantaneous scalability.
+
 ## Mockup Showcase
 ![WireframeShowcase](https://user-images.githubusercontent.com/3743776/81346934-1e4b0480-90b3-11ea-937f-4c413065a9cb.jpg)
 

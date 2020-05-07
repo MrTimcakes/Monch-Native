@@ -58,38 +58,29 @@ const validationSchema = yup.object().shape({
 
 
 function Signup({firebase, navigation}){
-
+  
   const handleOnSignup = async (values, actions) => {
     const { username, email, password } = values;
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(function(result) {
+
+    firebase.auth().createUserWithEmailAndPassword(email, password) // Create user in auth
+    .then( (e) => firebase.auth().currentUser.updateProfile({ displayName: username }) ) // Set Username
+    .then( (e) => {
       const userData = {
         badges: [],
         bio: null,
         cookingSkill: 0.0,
         username: username,
         profilePhoto: null,
-        uid: result.user.uid,
+        uid: firebase.auth().currentUser.uid,
         xp: 0.0,
         followers: 0,
         following: 0,
       };
-      return firebase.createNewUser(userData)
-      .then(result => {
-        return result.user.updateProfile({
-          displayName: username
-        })
-        .then(()=>{
-          navigation.navigate('App')
-        })
-      })
-    }).catch(function(error) {
-      actions.setFieldError('general', error.message)
-    })
-    .finally(()=>{
-      actions.setSubmitting(false)
-    });
+      return firebase.createNewUser(userData) // Create user in database
+    } )
+    .catch((error)=>{actions.setFieldError('general', error.message)})
   }
+
   return (
     <SafeAreaView>
       <ImageBackground source={require('Monch/assets/images/SplitFruits.jpg')} style={{position: 'absolute', left: 0, right: 0, top: 0, width: Dimensions.get('window').width, height: Dimensions.get('window').height,}} resizeMode='stretch' />

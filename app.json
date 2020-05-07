@@ -2,7 +2,6 @@
   "expo": {
     "name": "Monch",
     "slug": "Monch",
-    "owner": "MrTimcakes",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -52,5 +51,6 @@
         "svg"
       ]
     },
+    "description": "Monch is a dissertation project for Computer Science at the University of Lincoln.\nMonch is a dietary assistant app, a platform for food recommendations and recipe guides based on the food already at home. Monch learns what ingredients are available from receipts or product barcodes and suggests recipes based on meals similar users have enjoyed. The app is also to act as a social media platform enabling the distribution of recipes through promotional type posts from chefs or discovery of what friends have recently cooked."
   }
 }

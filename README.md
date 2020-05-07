@@ -18,6 +18,10 @@ Monch suggests food recommendations and recipe guides based on the food already 
 | ------------- | ------------- |
 | ![Feed](https://user-images.githubusercontent.com/3743776/80280905-2ee89b80-86ff-11ea-959b-dba95b35cda4.png)  | ![Profile](https://user-images.githubusercontent.com/3743776/80280899-27c18d80-86ff-11ea-96fb-ccb2451a89df.png)  |
 
+
+## Poster
+![Poster](https://user-images.githubusercontent.com/3743776/81348255-af22df80-90b5-11ea-8728-c40e53c1145f.jpg)
+
 ## Goals
 
 Goal | Status

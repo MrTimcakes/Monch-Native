@@ -19,15 +19,23 @@ function AppContainer(P) {
     user ? setIsLoggedIn(true) : setIsLoggedIn(false); // Set user state (As Boolean)
   });
 
-  const _cacheResourcesAsync = async => {
-    const images = [
-      require('../assets/icon.png'),
-    ];
+  const _cacheResourcesAsync = async () => {
+    const cacheImages = (images) => {
+      return images.map(image => {
+        if (typeof image === 'string') {
+          return Image.prefetch(image);
+        } else {
+          return Asset.fromModule(image).downloadAsync();
+        }
+      });
+    }
 
-    const cacheImages = images.map(image => {
-      return Asset.fromModule(image).downloadAsync();
-    }); 
-    return Promise.all(cacheImages);
+    const imageAssets = cacheImages([
+      // 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+      require('Monch/assets/images/SplitFruits.jpg'),
+    ]);
+
+    await Promise.all([...imageAssets, ]); // if I want to use fonts add here...fontAssets]);
   }
 
   if (!isReady || !isAuthStateKnown) {
@@ -39,7 +47,7 @@ function AppContainer(P) {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator headerMode="none" initialRouteName="Initial" >       
+        <Stack.Navigator headerMode="none" initialRouteName="Auth" >       
           {!isLoggedIn? <Stack.Screen name="Auth" component={AuthNavigation}/>: null }
           {isLoggedIn? <Stack.Screen name="App" component={AppNavigation}/>: null }     
         </Stack.Navigator>

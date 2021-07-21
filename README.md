@@ -1,10 +1,11 @@
 
 # Monch
->The Better Way to Eat - [Monch.XYZ](https://monch.XYZ)
+>The Better Way to Eat
 
 Monch suggests food recommendations and recipe guides based on the food already at home. Monch learns what ingredients are available from receipts or product barcodes and suggests recipes based on meals similar users have enjoyed.
 
-Currently, as of 07/05/2020 Monch is incomplete but the idea of the app is to be a platform for food recommendations and recipe guides based on the food already at home. Monch learns what ingredients are available from receipts or product barcodes and suggests recipes based on meals similar users have enjoyed. The app is also to act as a social media platform enabling the distribution of recipes through promotional type posts from chefs or discovery of what friends have recently cooked. To drive user engagement, elements of gamification are leveraged for each individual user allowing them to accrue experience and publicly visible badges. The platform is built using a serverless architecture designed for instantaneous scalability.
+Developed as part of a Level 3 Dissertation for the University of Lincoln, Monch was a social media experiment designed to leverage the serverless architecture of Firebase to build a scaleable and unique social media experience. The idea of the platform is to allow users to easily create a database of ingredients at home by scanning barcodes of products which could later be used to filter recipes by available resources. Recipes and posts were to be shared in a social-media-style feed and discovery system. As of 07/05/2020 development was halted as the project served its purpose of teaching the principles of serverless development for a level 3 dissertation. The platform idea was thoroughly planned and architected around future features discussed in the dissertation, which is available upon request. The repository is licenced under the GPL-3.0 licence and is free to be forked and developed further for commercial or personal use.
+
 
 ## Mockup Showcase
 ![WireframeShowcase](https://user-images.githubusercontent.com/3743776/81346934-1e4b0480-90b3-11ea-937f-4c413065a9cb.jpg)
@@ -48,7 +49,6 @@ User Badges | :white_check_mark:
 User Badges Display | :black_square_button:
 User Posts | :white_check_mark:
 User Recipe Posts | :white_check_mark:
-Google Assistant Intergration | :black_square_button:
 
 ## Demo
 The application can be trialed via the Expo client app from this [Expo Project](https://expo.io/@mrtimcakes/Monch)
